@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomePageViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="DQq-hZ-A0C">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Do-rU-heR">
+                    <rect key="frame" x="18" y="15" width="96" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ub5-zL-K7f">
+                    <rect key="frame" x="123" y="530" width="63" height="30"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Sign Out">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="signOutTapped:" destination="-1" eventType="touchUpInside" id="sHi-SW-k4D"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="DQq-hZ-A0C" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="58p-1v-BIG"/>
+                <constraint firstItem="0Do-rU-heR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="18" id="FUd-ca-6W6"/>
+                <constraint firstAttribute="trailing" secondItem="Ub5-zL-K7f" secondAttribute="trailing" constant="134" id="Pyu-Gn-3J6"/>
+                <constraint firstItem="DQq-hZ-A0C" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="esD-On-pAX"/>
+                <constraint firstAttribute="bottom" secondItem="Ub5-zL-K7f" secondAttribute="bottom" constant="8" id="iOT-uo-WLL"/>
+                <constraint firstItem="Ub5-zL-K7f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="123" id="oFq-IE-aEt"/>
+                <constraint firstItem="0Do-rU-heR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="r1j-LJ-2rg"/>
+                <constraint firstAttribute="trailing" secondItem="DQq-hZ-A0C" secondAttribute="trailing" id="wj2-1l-L6j"/>
+                <constraint firstAttribute="trailing" secondItem="0Do-rU-heR" secondAttribute="trailing" constant="206" id="xDh-Ri-dDJ"/>
+                <constraint firstAttribute="bottom" secondItem="DQq-hZ-A0C" secondAttribute="bottom" id="zSA-t2-nor"/>
+            </constraints>
+            <point key="canvasLocation" x="323" y="403"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="background" width="640" height="427"/>
+    </resources>
+</document>
