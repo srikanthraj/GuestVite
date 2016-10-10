@@ -62,17 +62,6 @@
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="highlightedColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                     </label>
-                                    <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Utw-ex-Fe5">
-                                        <rect key="frame" x="70" y="272" width="196" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.36452915470000002" blue="0.31360834300000001" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="          Register Now                ">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="registerTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gma-2N-1mg"/>
-                                        </connections>
-                                    </button>
                                     <button alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nL1-Jz-7ca">
                                         <rect key="frame" x="87" y="119" width="162" height="30"/>
                                         <color key="backgroundColor" red="1" green="0.3645291546954279" blue="0.31360834304120766" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
@@ -99,26 +88,37 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="QI5-LY-LaG" firstAttribute="leading" secondItem="rKu-AA-WtZ" secondAttribute="trailing" constant="8" id="6ZW-Sj-zyI"/>
-                                    <constraint firstItem="Utw-ex-Fe5" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="104" id="FHi-lA-grW"/>
                                     <constraint firstItem="oC3-G2-jpR" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="16" id="FaP-AA-ml0"/>
                                     <constraint firstItem="rKu-AA-WtZ" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="11" id="J88-DP-3hy"/>
-                                    <constraint firstItem="Utw-ex-Fe5" firstAttribute="top" secondItem="Gcs-qs-Gsm" secondAttribute="bottom" id="LGC-N5-XZH"/>
                                     <constraint firstItem="QI5-LY-LaG" firstAttribute="width" secondItem="iQw-ck-zLY" secondAttribute="width" id="LQs-QW-5Dt"/>
                                     <constraint firstItem="Gcs-qs-Gsm" firstAttribute="top" secondItem="wPy-m2-4Go" secondAttribute="bottom" constant="35" id="PTE-Ia-G3n"/>
                                     <constraint firstItem="iQw-ck-zLY" firstAttribute="leading" secondItem="oC3-G2-jpR" secondAttribute="trailing" constant="2" id="Ril-GV-K4y"/>
-                                    <constraint firstAttribute="trailing" secondItem="Utw-ex-Fe5" secondAttribute="trailing" constant="60" id="U2b-0l-AsW"/>
                                     <constraint firstItem="wPy-m2-4Go" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="80" id="g2F-MO-RQE"/>
                                     <constraint firstAttribute="trailing" secondItem="wPy-m2-4Go" secondAttribute="trailing" constant="90" id="zud-Me-pUp"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Utw-ex-Fe5">
+                                <rect key="frame" x="62" y="530" width="196" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.36452915470000002" blue="0.31360834300000001" alpha="0.55000000000000004" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="          Register Now                ">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gma-2N-1mg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="RBs-1R-x8S" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="97" id="3z5-B1-1VE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Utw-ex-Fe5" secondAttribute="trailing" constant="42" id="PQ4-NR-VvK"/>
                             <constraint firstItem="JqD-1x-zZR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="SKH-NG-T4N"/>
                             <constraint firstItem="JqD-1x-zZR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Tev-dR-cos"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Utw-ex-Fe5" secondAttribute="bottom" constant="8" id="Vpx-4w-QNI"/>
                             <constraint firstItem="RBs-1R-x8S" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="WbD-H2-FmK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JqD-1x-zZR" secondAttribute="trailing" constant="-20" id="cHS-jY-VKD"/>
+                            <constraint firstItem="Utw-ex-Fe5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="42" id="fNV-UT-9k0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RBs-1R-x8S" secondAttribute="trailing" constant="-20" id="gif-6X-aY0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RBs-1R-x8S" secondAttribute="bottom" constant="249" id="nfH-7e-gIf"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JqD-1x-zZR" secondAttribute="bottom" id="oNT-Yo-tRF"/>

@@ -11,7 +11,12 @@
 #include "TextFieldValidator.h"
 @import Firebase;
 
+
+
+
 @interface RegPageViewController ()
+<UIScrollViewDelegate>
+
 
 
 
@@ -24,11 +29,15 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *addr2Text;
 
+//@property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UITextField *cityText;
 @property (weak, nonatomic) IBOutlet UITextField *zipText;
 @property (weak, nonatomic) IBOutlet UITextField *phoneText;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *regView;
 @property (strong, nonatomic) FIRDatabaseReference *ref;
+@property (weak, nonatomic) IBOutlet UIButton *registerButton;
 @end
 
 @implementation RegPageViewController
@@ -37,13 +46,227 @@
     [super viewDidLoad];
     
     self.ref = [[FIRDatabase database] reference];
-    // Do any additional setup after loading the view from its nib.
+    
+    
+    
+    
+    
+    
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style:UIBarButtonItemStyleBordered target:self
+                                                                  action:@selector(doneClicked:)];
+    
+    
+    /*
+    UIBarButtonItem* nextButton = [[UIBarButtonItem alloc] initWithTitle:@">"
+                                                                   style:UIBarButtonItemStyleBordered target:self
+                                                                  action:@selector(nextClicked:)];
+    */
+    
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+    
+    self.fNameText.inputAccessoryView = keyboardDoneButtonView;
+    self.lNameText.inputAccessoryView = keyboardDoneButtonView;
+    self.emailText.inputAccessoryView = keyboardDoneButtonView;
+    self.passwordText.inputAccessoryView = keyboardDoneButtonView;
+    self.reEnterPasswordText.inputAccessoryView = keyboardDoneButtonView;
+    self.addr1Text.inputAccessoryView = keyboardDoneButtonView;
+    self.addr2Text.inputAccessoryView = keyboardDoneButtonView; 
+    self.cityText.inputAccessoryView = keyboardDoneButtonView;
+    self.zipText.inputAccessoryView = keyboardDoneButtonView;
+    self.phoneText.inputAccessoryView = keyboardDoneButtonView;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    
+    return self.regView;
+}
+
+
+-(void)doneClicked:(id)sender
+{
+    NSLog(@"Done Clicked.");
+    [self.view endEditing:YES];
+}
+
+/*
+-(void)nextClicked:(id)sender
+{
+    NSLog(@"Next Clicked.");
+    
+    if(self.fNameText.isFirstResponder){
+        [self.fNameText resignFirstResponder];
+        [self.lNameText becomeFirstResponder];
+    }
+    
+    else if(self.lNameText.isFirstResponder){
+        [self.lNameText resignFirstResponder];
+        [self.emailText becomeFirstResponder];
+    }
+    
+    else if(self.emailText.isFirstResponder){
+        [self.emailText resignFirstResponder];
+        [self.passwordText becomeFirstResponder];
+    }
+    
+    else if(self.passwordText.isFirstResponder){
+        [self.passwordText resignFirstResponder];
+        [self.reEnterPasswordText becomeFirstResponder];
+    }
+
+    else if(self.reEnterPasswordText.isFirstResponder){
+        [self.reEnterPasswordText resignFirstResponder];
+        [self.addr1Text becomeFirstResponder];
+    }
+    
+    else if(self.addr1Text.isFirstResponder){
+        [self.addr1Text resignFirstResponder];
+        [self.addr2Text becomeFirstResponder];
+    }
+    
+    else if(self.addr2Text.isFirstResponder){
+        [self.addr2Text resignFirstResponder];
+        [self.cityText becomeFirstResponder];
+    }
+    
+    else if(self.cityText.isFirstResponder){
+        [self.cityText resignFirstResponder];
+        [self.zipText becomeFirstResponder];
+    }
+    
+    else if(self.zipText.isFirstResponder){
+        [self.zipText resignFirstResponder];
+        [self.phoneText becomeFirstResponder];
+    }
+    }
+ */
+
+
+//-------------------------------
+
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self registerForKeyboardNotifications];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [self deregisterFromKeyboardNotifications];
+    
+    [super viewWillDisappear:animated];
+    
+}
+
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    
+    NSDictionary* info = [notification userInfo];
+    
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGPoint buttonOrigin;
+    CGFloat buttonHeight;
+    
+    
+    if(self.cityText.isFirstResponder){
+    buttonOrigin = self.cityText.frame.origin;
+    
+    buttonHeight = self.cityText.frame.size.height;
+    }
+    
+    else if(self.phoneText.isFirstResponder){
+        buttonOrigin = self.phoneText.frame.origin;
+        
+        buttonHeight = self.phoneText.frame.size.height;
+    }
+    
+    
+    else if(self.reEnterPasswordText.isFirstResponder){
+        buttonOrigin = self.reEnterPasswordText.frame.origin;
+        
+        buttonHeight = self.reEnterPasswordText.frame.size.height;
+    }
+    
+    else if(self.addr1Text.isFirstResponder){
+        buttonOrigin = self.addr1Text.frame.origin;
+        
+        buttonHeight = self.addr1Text.frame.size.height;
+    }
+    else if(self.zipText.isFirstResponder){
+        buttonOrigin = self.zipText.frame.origin;
+        
+        buttonHeight = self.zipText.frame.size.height;
+    }
+    
+    
+
+    
+    CGRect visibleRect = self.view.frame;
+    
+    visibleRect.size.height -= keyboardSize.height;
+    
+    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+        
+        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight);
+        
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+        
+    }
+    
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    
+}
+
+-(void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+//---------------------------------
+
+
+
 
 - (IBAction)registerTapped:(id)sender {
     
