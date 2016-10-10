@@ -59,11 +59,7 @@
                                                                   action:@selector(doneClicked:)];
     
     
-    /*
-    UIBarButtonItem* nextButton = [[UIBarButtonItem alloc] initWithTitle:@">"
-                                                                   style:UIBarButtonItemStyleBordered target:self
-                                                                  action:@selector(nextClicked:)];
-    */
+    
     
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
     
@@ -96,57 +92,6 @@
     [self.view endEditing:YES];
 }
 
-/*
--(void)nextClicked:(id)sender
-{
-    NSLog(@"Next Clicked.");
-    
-    if(self.fNameText.isFirstResponder){
-        [self.fNameText resignFirstResponder];
-        [self.lNameText becomeFirstResponder];
-    }
-    
-    else if(self.lNameText.isFirstResponder){
-        [self.lNameText resignFirstResponder];
-        [self.emailText becomeFirstResponder];
-    }
-    
-    else if(self.emailText.isFirstResponder){
-        [self.emailText resignFirstResponder];
-        [self.passwordText becomeFirstResponder];
-    }
-    
-    else if(self.passwordText.isFirstResponder){
-        [self.passwordText resignFirstResponder];
-        [self.reEnterPasswordText becomeFirstResponder];
-    }
-
-    else if(self.reEnterPasswordText.isFirstResponder){
-        [self.reEnterPasswordText resignFirstResponder];
-        [self.addr1Text becomeFirstResponder];
-    }
-    
-    else if(self.addr1Text.isFirstResponder){
-        [self.addr1Text resignFirstResponder];
-        [self.addr2Text becomeFirstResponder];
-    }
-    
-    else if(self.addr2Text.isFirstResponder){
-        [self.addr2Text resignFirstResponder];
-        [self.cityText becomeFirstResponder];
-    }
-    
-    else if(self.cityText.isFirstResponder){
-        [self.cityText resignFirstResponder];
-        [self.zipText becomeFirstResponder];
-    }
-    
-    else if(self.zipText.isFirstResponder){
-        [self.zipText resignFirstResponder];
-        [self.phoneText becomeFirstResponder];
-    }
-    }
- */
 
 
 //-------------------------------
@@ -291,19 +236,11 @@
             else {
              
                 
-                 //NSString *key = [[_ref child:@"users"] childByAutoId].key;
-                
-                [_ref observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-                    
-                    NSLog(@"%@",[_ref child:@"EMail"]);
-                    
-                    
-                }];
                 //Update all the values to the DB
-                
+               /*
                 if([self.fNameText.text length] >0 && [self.lNameText.text length] >0 && [self.emailText.text length] > 0 && [self.addr1Text.text length] >0 && [self.addr2Text.text length] > 0 && [self.cityText.text length] > 0 && [self.zipText.text length] > 0 && [self.phoneText.text length] > 0)
                 {
-                
+                */
                
                 NSDictionary *post = @{@"uid" : user.uid,
                                        @"First Name": self.fNameText.text,
@@ -318,7 +255,7 @@
                                        };
                 NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/", user.uid]: post};
                 [_ref updateChildValues:childUpdates];
-                }
+                //}
                 /*
                 [[[_ref child:@"users"] child:user.uid] setValue:@{@"First Name": self.fNameText.text}];
                 [[[_ref child:@"users"] child:user.uid] setValue:@{@"Last Name": self.lNameText.text}];

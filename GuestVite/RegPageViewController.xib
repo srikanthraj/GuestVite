@@ -29,10 +29,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kfS-nD-PEQ">
-                    <rect key="frame" x="-5" y="0.0" width="417" height="588"/>
+                    <rect key="frame" x="-5" y="0.0" width="417" height="570"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Registration" translatesAutoresizingMaskIntoConstraints="NO" id="d4P-ib-7JS">
-                            <rect key="frame" x="5" y="0.0" width="412" height="568"/>
+                            <rect key="frame" x="5" y="0.0" width="412" height="576"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="E-Mail " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eCh-a9-kQg">
                             <rect key="frame" x="20" y="167" width="98" height="21"/>
@@ -144,8 +144,8 @@
                         </textField>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="d4P-ib-7JS" firstAttribute="leading" secondItem="kfS-nD-PEQ" secondAttribute="leading" constant="-5" id="UJq-BX-dSp"/>
-                        <constraint firstAttribute="bottom" secondItem="d4P-ib-7JS" secondAttribute="bottom" id="r2b-xp-hPh"/>
+                        <constraint firstItem="d4P-ib-7JS" firstAttribute="leading" secondItem="kfS-nD-PEQ" secondAttribute="leading" constant="5" id="UJq-BX-dSp"/>
+                        <constraint firstAttribute="bottom" secondItem="d4P-ib-7JS" secondAttribute="bottom" constant="2" id="r2b-xp-hPh"/>
                         <constraint firstAttribute="trailing" secondItem="d4P-ib-7JS" secondAttribute="trailing" id="tDv-kY-Av9"/>
                         <constraint firstItem="d4P-ib-7JS" firstAttribute="top" secondItem="kfS-nD-PEQ" secondAttribute="top" id="zYZ-Gi-GIC"/>
                     </constraints>
@@ -155,7 +155,7 @@
             <constraints>
                 <constraint firstItem="kfS-nD-PEQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Koa-Z3-rCD"/>
                 <constraint firstItem="kfS-nD-PEQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="-5" id="Ps1-qx-pnf"/>
-                <constraint firstAttribute="bottom" secondItem="kfS-nD-PEQ" secondAttribute="bottom" id="Xaw-Z7-cc5"/>
+                <constraint firstAttribute="bottom" secondItem="kfS-nD-PEQ" secondAttribute="bottom" constant="18" id="Xaw-Z7-cc5"/>
                 <constraint firstAttribute="trailing" secondItem="kfS-nD-PEQ" secondAttribute="trailing" id="oFL-fD-ucV"/>
             </constraints>
             <point key="canvasLocation" x="351" y="365"/>

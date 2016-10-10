@@ -10,7 +10,8 @@
 
 @import Firebase;
 @interface HomePageViewController ()
-
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
+@property (strong, nonatomic) FIRDatabaseReference *ref;
 @end
 
 @implementation HomePageViewController
@@ -18,12 +19,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
+    self.ref = [[FIRDatabase database] reference];
+    
+    [self addFirstName];
+    
+    
 }
 
+-(void) addFirstName {
+    
+    
+    NSString *userID = [FIRAuth auth].currentUser.uid;
+    [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        
+        NSDictionary *dict = snapshot.value;
+        NSString *firstName = [dict valueForKey:@"First Name"];
+        NSLog(@"First Name is %@" , firstName);
+        
+        self.welcomeLabel.text = [self.welcomeLabel.text stringByAppendingFormat:@" %@",firstName];
+              
+              } withCancelBlock:^(NSError * _Nonnull error) {
+                  NSLog(@"%@", error.localizedDescription);
+              }];
+
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
+
 
 - (IBAction)signOutTapped:(id)sender {
     
