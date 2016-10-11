@@ -32,13 +32,13 @@
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
 
     
-   
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     [keyboardDoneButtonView sizeToFit];
@@ -74,6 +74,25 @@
     //self.loginButton.layer.opacity = 5.0;
     
    // self.emailField.layer.backgroundColor =
+    
+    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *auth, FIRUser *user) {
+        
+        
+        NSLog(@"Auth is %@",auth);
+        if(auth!=nil){
+            
+            
+            HomePageViewController *hPViewController =
+            [[HomePageViewController alloc] initWithNibName:@"HomePageViewController" bundle:nil];
+            
+            //hPViewController.userName  = eMailEntered;
+            [self.navigationController pushViewController:hPViewController animated:YES];
+            
+            [self presentViewController:hPViewController animated:YES completion:nil];
+        }
+        
+        
+    }];
     
     
 }
