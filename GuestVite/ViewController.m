@@ -25,7 +25,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
 
-
+@property (strong, nonatomic) FIRDatabaseReference *ref;
 
 
 @end
@@ -75,10 +75,11 @@
     
    // self.emailField.layer.backgroundColor =
     
+    /*
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *auth, FIRUser *user) {
         
         
-        NSLog(@"Auth is %@",auth);
+        NSLog(@"User is %@",user);
         if(auth!=nil){
             
             
@@ -93,7 +94,7 @@
         
         
     }];
-    
+    */
     
 }
 
@@ -162,6 +163,20 @@
                              
                              else {
                                  
+                                 NSString *userID = [FIRAuth auth].currentUser.uid;
+                                 
+                                 NSLog(@"User Id From Login Page %@",userID);
+                                 
+                                 if([[_ref child:@"users"] child:userID] == nil){
+                                     NSLog(@"I AM GREATEST");
+                                 }
+                                
+                                 [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+                                     
+                                     NSDictionary *dict = snapshot.value;
+                                     if([dict valueForKey:@"uid"] == nil)
+                                         NSLog(@"No UID found in DB");
+                                 }];
                                  
                                  
                                  

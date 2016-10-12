@@ -10,11 +10,14 @@
 
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
+#import "ViewController.h"
+
+#import "SendNewInviteViewController.h"
 
 @import Firebase;
 @interface HomePageViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
-@property (weak, nonatomic) IBOutlet FLAnimatedImageView *helloView;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *sendInviteButton;
 
@@ -44,11 +47,7 @@
     
      [self configureButtons];
     
-    FLAnimatedImage *helloImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Hello" ofType:@"gif"]]];
-    
-    self.helloView.animatedImage = helloImage;
-    
-    [self.view addSubview:self.helloView];
+  
 }
 
 
@@ -93,6 +92,7 @@
 }
 
 
+
 -(void) addFirstName {
     
     
@@ -111,6 +111,23 @@
 
     
 }
+
+
+- (IBAction)sendNewInviteTapped:(id)sender {
+    
+  
+    
+    SendNewInviteViewController *sendNewVC =
+    [[SendNewInviteViewController alloc] initWithNibName:@"SendNewInviteViewController" bundle:nil];
+    
+    //hPViewController.userName  = eMailEntered;
+    [self.navigationController pushViewController:sendNewVC animated:YES];
+    
+    [self presentViewController:sendNewVC animated:YES completion:nil];
+    
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -123,7 +140,18 @@
 
 - (IBAction)signOutTapped:(id)sender {
     
+    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
+        if (user) {
+            NSLog(@"User is signed in with uid: %@", user.uid);
+        } else {
+            NSLog(@"No user is signed in.");
+        }
+    }];
+   
    [[FIRAuth auth] signOut:nil];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"uid"];
+    
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
         if (user) {
             NSLog(@"User is signed in with uid: %@", user.uid);
@@ -132,8 +160,14 @@
         }
     }];
     
-        
-}
+    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"myViewController"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:NULL];
+    
+    
+   }
 
 
 

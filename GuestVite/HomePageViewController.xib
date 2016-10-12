@@ -43,26 +43,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view alpha="0.0" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iZC-e2-9G2">
-                                <rect key="frame" x="8" y="49" width="304" height="458"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ub5-zL-K7f">
-                                <rect key="frame" x="123" y="530" width="63" height="30"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Sign Out">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="signOutTapped:" destination="-1" eventType="touchUpInside" id="sHi-SW-k4D"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEh-eg-igf">
                                 <rect key="frame" x="25" y="61" width="252" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
                                 <state key="normal" title="                  Send New Invite                            ">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendNewInviteTapped:" destination="-1" eventType="touchUpInside" id="KWW-dy-by2"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RZs-0u-0hl">
                                 <rect key="frame" x="49" y="159" width="222" height="30"/>
@@ -106,21 +95,28 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ub5-zL-K7f">
+                                <rect key="frame" x="120" y="405" width="63" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOutTapped:" destination="-1" eventType="touchUpInside" id="sHi-SW-k4D"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="iZC-e2-9G2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="0Lr-5W-qwJ"/>
                             <constraint firstItem="RZs-0u-0hl" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="18h-Gz-mL0"/>
                             <constraint firstItem="RZs-0u-0hl" firstAttribute="height" secondItem="xEh-eg-igf" secondAttribute="height" id="1bL-Mo-fdb"/>
-                            <constraint firstAttribute="trailing" secondItem="iZC-e2-9G2" secondAttribute="trailing" constant="8" id="1sd-rw-I7U"/>
                             <constraint firstItem="fHA-2M-DnO" firstAttribute="top" secondItem="xEh-eg-igf" secondAttribute="bottom" constant="21" id="2aL-EA-2Pc"/>
                             <constraint firstItem="u0k-Dp-fMY" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="7xf-Xs-zzr"/>
                             <constraint firstItem="0Do-rU-heR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="18" id="FUd-ca-6W6"/>
                             <constraint firstItem="fHA-2M-DnO" firstAttribute="height" secondItem="xEh-eg-igf" secondAttribute="height" id="IYu-V0-XTs"/>
+                            <constraint firstItem="Ub5-zL-K7f" firstAttribute="top" secondItem="u0k-Dp-fMY" secondAttribute="bottom" constant="8" id="Oo7-t7-ccH"/>
                             <constraint firstItem="DQq-hZ-A0C" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="-30" id="Op5-6i-Ta9"/>
-                            <constraint firstAttribute="trailing" secondItem="Ub5-zL-K7f" secondAttribute="trailing" constant="134" id="Pyu-Gn-3J6"/>
                             <constraint firstItem="fHA-2M-DnO" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="Tyh-EH-v9b"/>
-                            <constraint firstItem="DQq-hZ-A0C" firstAttribute="top" secondItem="iZC-e2-9G2" secondAttribute="bottom" constant="-507" id="Y76-gO-o3k"/>
                             <constraint firstItem="DQq-hZ-A0C" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="-30" id="YSq-qv-MEe"/>
                             <constraint firstAttribute="trailing" secondItem="DQq-hZ-A0C" secondAttribute="trailing" constant="-30" id="b1G-HV-wQ8"/>
                             <constraint firstAttribute="bottom" secondItem="DQq-hZ-A0C" secondAttribute="bottom" constant="-50" id="bfL-tw-Uv1"/>
@@ -128,13 +124,11 @@
                             <constraint firstItem="cdK-ih-Rmc" firstAttribute="top" secondItem="1VG-sD-hYG" secondAttribute="bottom" constant="32" id="dgG-Ms-qo2"/>
                             <constraint firstItem="1VG-sD-hYG" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="dpz-v0-WQl"/>
                             <constraint firstItem="DQq-hZ-A0C" firstAttribute="leading" secondItem="xEh-eg-igf" secondAttribute="trailing" constant="-283" id="gSG-Bd-Xhr"/>
-                            <constraint firstAttribute="bottom" secondItem="Ub5-zL-K7f" secondAttribute="bottom" constant="8" id="iOT-uo-WLL"/>
                             <constraint firstItem="FL0-6e-PnW" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="kVf-6m-ftU"/>
                             <constraint firstItem="1VG-sD-hYG" firstAttribute="height" secondItem="xEh-eg-igf" secondAttribute="height" id="mVz-bG-1iZ"/>
                             <constraint firstItem="FL0-6e-PnW" firstAttribute="top" secondItem="cdK-ih-Rmc" secondAttribute="bottom" constant="29" id="mvF-P0-WG3"/>
                             <constraint firstItem="u0k-Dp-fMY" firstAttribute="top" secondItem="FL0-6e-PnW" secondAttribute="bottom" constant="81" id="nLj-Zd-Liy"/>
                             <constraint firstItem="FL0-6e-PnW" firstAttribute="height" secondItem="xEh-eg-igf" secondAttribute="height" id="nVv-HS-rn9"/>
-                            <constraint firstItem="Ub5-zL-K7f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="123" id="oFq-IE-aEt"/>
                             <constraint firstItem="cdK-ih-Rmc" firstAttribute="width" secondItem="xEh-eg-igf" secondAttribute="width" id="pMe-cg-uDE"/>
                             <constraint firstItem="0Do-rU-heR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="15" id="r1j-LJ-2rg"/>
                             <constraint firstItem="1VG-sD-hYG" firstAttribute="top" secondItem="RZs-0u-0hl" secondAttribute="bottom" constant="23" id="vOk-vk-O4L"/>

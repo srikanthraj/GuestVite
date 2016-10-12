@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myViewController" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,7 +21,7 @@
                             <imageView userInteractionEnabled="NO" alpha="0.34999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="guests" translatesAutoresizingMaskIntoConstraints="NO" id="JqD-1x-zZR">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <view opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RBs-1R-x8S">
+                            <view opaque="NO" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="myViewController" translatesAutoresizingMaskIntoConstraints="NO" id="RBs-1R-x8S">
                                 <rect key="frame" x="0.0" y="161" width="320" height="302"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="justified" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iQw-ck-zLY" customClass="TextFieldValidator">
@@ -86,6 +86,7 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="myViewController"/>
                                 <constraints>
                                     <constraint firstItem="QI5-LY-LaG" firstAttribute="leading" secondItem="rKu-AA-WtZ" secondAttribute="trailing" constant="8" id="6ZW-Sj-zyI"/>
                                     <constraint firstItem="oC3-G2-jpR" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="16" id="FaP-AA-ml0"/>
@@ -96,6 +97,9 @@
                                     <constraint firstItem="wPy-m2-4Go" firstAttribute="leading" secondItem="RBs-1R-x8S" secondAttribute="leading" constant="80" id="g2F-MO-RQE"/>
                                     <constraint firstAttribute="trailing" secondItem="wPy-m2-4Go" secondAttribute="trailing" constant="90" id="zud-Me-pUp"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="Storyboard ID" value="myViewController"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Utw-ex-Fe5">
                                 <rect key="frame" x="62" y="530" width="196" height="30"/>
