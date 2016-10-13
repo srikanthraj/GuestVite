@@ -7,7 +7,7 @@
 //
 
 #import "HomePageViewController.h"
-
+#import "SignOut.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 #import "ViewController.h"
@@ -97,14 +97,41 @@
     
     
     NSString *userID = [FIRAuth auth].currentUser.uid;
+    
+    NSLog(@"Home Page : user ID is %@",userID);
+    
+    NSLog(@"Home Page : %@",[[_ref child:@"users"] child:userID]);
+    
     [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         
         NSDictionary *dict = snapshot.value;
         NSString *firstName = [dict valueForKey:@"First Name"];
-        NSLog(@"First Name is %@" , firstName);
+       // NSLog(@"First Name is %@" , firstName);
         
         self.welcomeLabel.text = [self.welcomeLabel.text stringByAppendingFormat:@" %@"  ,firstName];
-              
+        
+        
+        NSDictionary *post = @{@"uid" : [dict valueForKey:@"uid"],
+                               @"First Name": [dict valueForKey:@"First Name"],
+                               @"Last Name": [dict valueForKey:@"Last Name"],
+                               @"EMail": [dict valueForKey:@"EMail"],
+                               @"Address1": [dict valueForKey:@"Address1"],
+                               @"Address2": [dict valueForKey:@"Address2"],
+                               @"City": [dict valueForKey:@"City"],
+                               @"Zip": [dict valueForKey:@"Zip"],
+                               @"Phone": [dict valueForKey:@"Phone"],
+                               
+                               };
+        
+       // NSLog(@"On Login Tapped %@",[dict valueForKey:@"uid"]);
+        
+        NSDictionary *childCurrentUserUpdates = @{[NSString stringWithFormat:@"/current_loggedIn_users/%@/", [dict valueForKey:@"uid"]]: post};
+        [_ref updateChildValues:childCurrentUserUpdates];
+        
+        
+        
+        
+        
               } withCancelBlock:^(NSError * _Nonnull error) {
                   NSLog(@"%@", error.localizedDescription);
               }];
@@ -140,6 +167,14 @@
 
 - (IBAction)signOutTapped:(id)sender {
     
+    // Remove entry from Current Users Table
+    
+    signedOut = TRUE;
+    
+    NSString *userID = [FIRAuth auth].currentUser.uid;
+    [[[_ref child:@"current_loggedIn_users"] child:userID] removeValue];
+    
+    /*
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth * _Nonnull auth, FIRUser * _Nullable user) {
         if (user) {
             NSLog(@"User is signed in with uid: %@", user.uid);
@@ -160,6 +195,7 @@
         }
     }];
     
+    */
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"myViewController"];

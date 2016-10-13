@@ -256,20 +256,13 @@
                                        };
                 NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/users/%@/", user.uid]: post};
                 [_ref updateChildValues:childUpdates];
-                //}
-                /*
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"First Name": self.fNameText.text}];
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"Last Name": self.lNameText.text}];
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"EMail": self.emailText.text}];
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"Address1": self.addr1Text.text}];
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"Address2": self.addr2Text.text}];
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"City": self.cityText.text}];
                 
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"Zip": self.zipText.text}];
                 
-                [[[_ref child:@"users"] child:user.uid] setValue:@{@"Phone": self.phoneText.text}];
-                */
+                            NSDictionary *childCurrentUserUpdates = @{[NSString stringWithFormat:@"/current_loggedIn_users/%@/", user.uid]: post};
+                [_ref updateChildValues:childCurrentUserUpdates];
+
                 
+            
                 
                 HomePageViewController *hpViewController =
                 [[HomePageViewController alloc] initWithNibName:@"HomePageViewController" bundle:nil];

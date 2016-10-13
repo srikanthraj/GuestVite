@@ -11,7 +11,7 @@
 @import Firebase;
 
 @interface AppDelegate ()
-
+@property (strong, nonatomic) FIRDatabaseReference *ref;
 @end
 
 @implementation AppDelegate
@@ -22,6 +22,7 @@
    
     
     [FIRApp configure];
+   
     return YES;
 }
 

@@ -71,7 +71,7 @@
     
     else{
         
-        
+        self.ref = [[FIRDatabase database] reference];
         
 
         NSString *userID = [FIRAuth auth].currentUser.uid;
@@ -120,6 +120,120 @@
         }];
         
     
+    }
+    
+    // Check if the E_mail and (or) password exists
+    
+    if([self.guestEMailText.text length] >0  && [self.guestPhoneText.text length] == 0) {
+        
+        NSLog(@"Only Guest Email Available");
+        
+        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+
+            NSLog(@"%@",snapshot);
+            
+            NSDictionary *dict = snapshot.value;
+            
+            
+            NSArray * arr = [dict allValues];
+            
+            BOOL isaMember = FALSE;
+            
+            for (int i = 0; i < [arr count]; i++) {
+            
+                if([arr[i][@"EMail"] isEqualToString:self.guestEMailText.text]) {
+                    NSLog(@"Guest Is a member");
+                    isaMember = TRUE;
+                    break;
+                }
+                
+            }
+            
+            if(!isaMember) {
+                NSLog(@"Guest Is NOT a member");
+            }
+            
+            
+        }];
+        
+    }
+    
+    // Only Phone
+    else if([self.guestPhoneText.text length] >0  && [self.guestEMailText.text length] == 0) {
+        
+        
+        NSLog(@"Only Phone Available");
+        
+        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+            
+            NSLog(@"%@",snapshot);
+            
+            NSDictionary *dict = snapshot.value;
+            
+            
+            NSArray * arr = [dict allValues];
+            
+            BOOL isaMember = FALSE;
+            
+            for (int i = 0; i < [arr count]; i++) {
+                
+                if([arr[i][@"Phone"] isEqualToString:self.guestPhoneText.text]) {
+                    NSLog(@"Guest Is a member");
+                    isaMember = TRUE;
+                    break;
+                }
+                
+            }
+            
+            if(!isaMember) {
+                NSLog(@"Guest Is NOT a member");
+            }
+            
+            
+        }];
+
+        
+        
+        
+    }
+    
+    
+    
+    else if([self.guestPhoneText.text length] >0  && [self.guestEMailText.text length] > 0) {
+        
+        
+        NSLog(@"Both Available");
+        
+        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+            
+            NSLog(@"%@",snapshot);
+            
+            NSDictionary *dict = snapshot.value;
+            
+            
+            NSArray * arr = [dict allValues];
+            
+            BOOL isaMember = FALSE;
+            
+            for (int i = 0; i < [arr count]; i++) {
+                
+                if([arr[i][@"EMail"] isEqualToString:self.guestEMailText.text] && [arr[i][@"Phone"] isEqualToString:self.guestPhoneText.text]) {
+                    NSLog(@"Guest Is a member");
+                    isaMember = TRUE;
+                    break;
+                }
+                
+            }
+            
+            if(!isaMember) {
+                NSLog(@"Guest Is NOT a member");
+            }
+            
+            
+        }];
+        
+
+        
     }
     
     

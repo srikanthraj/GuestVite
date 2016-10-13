@@ -46,6 +46,7 @@
 		84267C0D1DAD9CF10044ACF4 /* SendNewInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendNewInviteViewController.h; sourceTree = "<group>"; };
 		84267C0E1DAD9CF10044ACF4 /* SendNewInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendNewInviteViewController.m; sourceTree = "<group>"; };
 		84267C0F1DAD9CF10044ACF4 /* SendNewInviteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendNewInviteViewController.xib; sourceTree = "<group>"; };
+		84267C121DAF1DBE0044ACF4 /* SignOut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignOut.h; sourceTree = "<group>"; };
 		847340441DA937670038C047 /* GuestVite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestVite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847340481DA937670038C047 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8473404A1DA937670038C047 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 				847340721DA979A50038C047 /* RegPageViewController.h */,
 				847340731DA979A50038C047 /* RegPageViewController.m */,
 				847340741DA979A50038C047 /* RegPageViewController.xib */,
+				84267C121DAF1DBE0044ACF4 /* SignOut.h */,
 			);
 			path = GuestVite;
 			sourceTree = "<group>";

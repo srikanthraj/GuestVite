@@ -11,6 +11,7 @@
 #import "HomePageViewController.h"
 #import "RegPageViewController.h"
 #import "TextFieldValidator.h"
+#import "SignOut.h"
 
 @import Firebase;
 
@@ -38,7 +39,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
 
-    
+    self.ref = [[FIRDatabase database] reference];
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     [keyboardDoneButtonView sizeToFit];
@@ -71,33 +72,55 @@
     [[self.registerButton layer] setBorderWidth:1.0f];
     [[self.registerButton layer] setBorderColor:[UIColor whiteColor].CGColor];
     
-    //self.loginButton.layer.opacity = 5.0;
+
     
-   // self.emailField.layer.backgroundColor =
+    if(!signedOut) {
+    HomePageViewController *hPViewController =
+    [[HomePageViewController alloc] init];
     
-    /*
-    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *auth, FIRUser *user) {
-        
-        
-        NSLog(@"User is %@",user);
-        if(auth!=nil){
-            
-            
-            HomePageViewController *hPViewController =
-            [[HomePageViewController alloc] initWithNibName:@"HomePageViewController" bundle:nil];
-            
-            //hPViewController.userName  = eMailEntered;
-            [self.navigationController pushViewController:hPViewController animated:YES];
-            
-            [self presentViewController:hPViewController animated:YES completion:nil];
-        }
-        
-        
-    }];
-    */
+    
+    [self presentViewController:hPViewController animated:YES completion:nil];
+    }
+    
+    
+
+    
+    
+    
+    
+   //if([[_ref child:@"current_loggedIn_users"] child:userID] != nil)
+      //  {
+     
+           // NSLog(@"NOTTTTT NULLLLL");
+    
+
+           // }
+    
     
 }
 
+-(void) viewWillLayoutSubviews{
+    
+    
+    /*
+    NSString *userID = [FIRAuth auth].currentUser.uid;
+    
+    NSString *str = [NSString stringWithFormat: @"%@",[[_ref child:@"current_loggedIn_users"] child:userID]];
+    NSLog(@"LOGIN PAGE :  %lu",(unsigned long)[str rangeOfString:userID].location);
+    if([str rangeOfString:userID].location != NSNotFound)
+        {
+    [self autoLogin];
+        }
+     */
+}
+
+-(void) autoLogin {
+    HomePageViewController *hPViewController =
+    [[HomePageViewController alloc] init];
+    
+    
+    [self presentViewController:hPViewController animated:YES completion:nil];
+}
 -(void)doneClicked:(id)sender
 {
     NSLog(@"Done Clicked.");
@@ -135,6 +158,7 @@
 
 - (IBAction)loginTapped:(id)sender {
     
+    signedOut = FALSE;
     // Add regex for validating email id
     [self.emailField addRegx:@"[A-Z0-9a-z._%+-]{3,}+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}" withMsg:@"Enter valid email."];
     
@@ -162,22 +186,6 @@
                              }
                              
                              else {
-                                 
-                                 NSString *userID = [FIRAuth auth].currentUser.uid;
-                                 
-                                 NSLog(@"User Id From Login Page %@",userID);
-                                 
-                                 if([[_ref child:@"users"] child:userID] == nil){
-                                     NSLog(@"I AM GREATEST");
-                                 }
-                                
-                                 [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-                                     
-                                     NSDictionary *dict = snapshot.value;
-                                     if([dict valueForKey:@"uid"] == nil)
-                                         NSLog(@"No UID found in DB");
-                                 }];
-                                 
                                  
                                  
                                  HomePageViewController *hPViewController =
