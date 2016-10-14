@@ -7,6 +7,7 @@
 //
 
 #import "SendNewInviteViewController.h"
+#import "SendBulkInviteViewController.h"
 
 #import <MessageUI/MessageUI.h>
 
@@ -15,6 +16,7 @@
 @interface SendNewInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *guestNameText;
 @property (weak, nonatomic) IBOutlet UITextField *guestEMailText;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 
 @property (weak, nonatomic) IBOutlet UITextField *guestPhoneText;
 @property (weak, nonatomic) IBOutlet UITextField *inviteForDateText;
@@ -51,7 +53,6 @@
     
     self.inviteExpireDateText.layer.cornerRadius = 10.0;
     self.inviteExpireDateText.layer.borderWidth = 1.0;
-    
     
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
@@ -197,63 +198,20 @@
 //---------------------------------
 
 
+- (IBAction)segmentTapped:(id)sender {
 
-
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
-{
-    switch (result) {
-        case MessageComposeResultCancelled:
-            break;
-            
-        case MessageComposeResultFailed:
-        {
-            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warningAlert show];
-            break;
-        }
-            
-        case MessageComposeResultSent:
-            break;
-            
-        default:
-            break;
-    }
+if(self.segmentControl.selectedSegmentIndex ==1){
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-            NSLog(@"Mail cancelled");
-            break;
-        case MFMailComposeResultSaved:
-            NSLog(@"Mail saved");
-            break;
-        case MFMailComposeResultSent: {
-            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Success" message:[NSString stringWithFormat:@"E-Mail sent successfully to %@",self.guestNameText.text]preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-            
-            [ac addAction:aa];
-            [self presentViewController:ac animated:YES completion:nil];
-            break;
-        }
-        case MFMailComposeResultFailed:
-            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
-            break;
-        default:
-            break;
-    }
     
-    // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    SendBulkInviteViewController *sendBulkVC =
+    [[SendBulkInviteViewController alloc] initWithNibName:@"SendBulkInviteViewController" bundle:nil];
+    
+    //hPViewController.userName  = eMailEntered;
+    [self.navigationController pushViewController:sendBulkVC animated:YES];
+    
+    [self presentViewController:sendBulkVC animated:YES completion:nil];
 }
-
-
+}
 
 - (IBAction)sendInviteTapped:(id)sender {
     
@@ -333,9 +291,9 @@
         }
         
         
-     // -------------------- SEND SMS ------------------------------------
+     // -------------------- SEND SMS  When Email not defined and Phone Defined OR Both Phone and E Mail Defined------------------------------------
     
-    if([self.guestEMailText.text length] ==0  && [self.guestPhoneText.text length] > 0) {
+    if(([self.guestEMailText.text length] ==0  && [self.guestPhoneText.text length] > 0) ||  ([self.guestEMailText.text length] > 0  && [self.guestPhoneText.text length] > 0)){
         
         
         
@@ -397,6 +355,65 @@
         
     }
     
+    
 }
+
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent: {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Success" message:[NSString stringWithFormat:@"E-Mail sent successfully to %@",self.guestNameText.text]preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [ac addAction:aa];
+            [self presentViewController:ac animated:YES completion:nil];
+            break;
+        }
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+
 
 @end
