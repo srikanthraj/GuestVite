@@ -12,7 +12,7 @@
 
 @import Firebase;
 
-@interface SendNewInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate>
+@interface SendNewInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *guestNameText;
 @property (weak, nonatomic) IBOutlet UITextField *guestEMailText;
 
@@ -20,6 +20,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *inviteForDateText;
 @property (weak, nonatomic) IBOutlet UITextField *inviteExpireDateText;
 @property (weak, nonatomic) IBOutlet UITextView *messageText;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (weak, nonatomic) IBOutlet UIButton *sendInvite;
+@property (weak, nonatomic) IBOutlet UIImageView *regView;
 
 @property (strong, nonatomic) FIRDatabaseReference *ref;
 
@@ -50,6 +54,22 @@
     
     
     
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style:UIBarButtonItemStyleBordered target:self
+                                                                  action:@selector(doneClicked:)];
+    
+    self.guestNameText.inputAccessoryView = keyboardDoneButtonView;
+    self.guestEMailText.inputAccessoryView = keyboardDoneButtonView;
+    self.guestPhoneText.inputAccessoryView = keyboardDoneButtonView;
+    self.inviteForDateText.inputAccessoryView = keyboardDoneButtonView;
+    self.inviteExpireDateText.inputAccessoryView = keyboardDoneButtonView;
+    self.messageText.inputAccessoryView = keyboardDoneButtonView;
+    
+    
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+    
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -58,6 +78,125 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    
+    return self.regView;
+}
+
+-(void)doneClicked:(id)sender
+{
+    NSLog(@"Done Clicked.");
+    [self.view endEditing:YES];
+}
+
+
+//-------------------------------
+
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+}
+
+- (void)deregisterFromKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self registerForKeyboardNotifications];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [self deregisterFromKeyboardNotifications];
+    
+    [super viewWillDisappear:animated];
+    
+}
+
+
+- (void)keyboardWasShown:(NSNotification *)notification {
+    
+    NSDictionary* info = [notification userInfo];
+    
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGPoint buttonOrigin;
+    CGFloat buttonHeight;
+    
+    
+    if(self.messageText.isFirstResponder){
+        buttonOrigin = self.messageText.frame.origin;
+        
+        buttonHeight = self.messageText.frame.size.height;
+    }
+    
+    else if(self.sendInvite.isFirstResponder){
+        buttonOrigin = self.sendInvite.frame.origin;
+        
+        buttonHeight = self.sendInvite.frame.size.height;
+    }
+    
+    else if(self.inviteExpireDateText.isFirstResponder){
+        buttonOrigin = self.inviteExpireDateText.frame.origin;
+        
+        buttonHeight = self.inviteExpireDateText.frame.size.height;
+    }
+    
+    
+    
+    
+    
+    CGRect visibleRect = self.view.frame;
+    
+    visibleRect.size.height -= keyboardSize.height;
+    
+    if (!CGRectContainsPoint(visibleRect, buttonOrigin)){
+        
+        CGPoint scrollPoint = CGPointMake(0.0, buttonOrigin.y - visibleRect.size.height + buttonHeight);
+        
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+        
+    }
+    
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    [self.scrollView setContentOffset:CGPointZero animated:YES];
+    
+}
+
+-(void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+//---------------------------------
+
+
 
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
