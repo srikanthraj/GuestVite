@@ -8,9 +8,11 @@
 
 #import "SendNewInviteViewController.h"
 
+#import <MessageUI/MessageUI.h>
+
 @import Firebase;
 
-@interface SendNewInviteViewController ()
+@interface SendNewInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *guestNameText;
 @property (weak, nonatomic) IBOutlet UITextField *guestEMailText;
 
@@ -57,8 +59,73 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent: {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Success" message:[NSString stringWithFormat:@"E-Mail sent successfully to %@",self.guestNameText.text]preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [ac addAction:aa];
+            [self presentViewController:ac animated:YES completion:nil];
+            break;
+        }
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+
 - (IBAction)sendInviteTapped:(id)sender {
     
+    // Get the invite Row
+    
+    __block NSMutableString *rowValue = [[NSMutableString alloc] init];
+    
+    __block NSMutableString *senderName = [[NSMutableString alloc] init];
+    
+    
+
     if([self.guestEMailText.text length] ==0 && [self.guestPhoneText.text length] ==0) {
         
         UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"GuestVite" message:@"At Least One field amonf E-Mail Address or Phone is required"preferredStyle:UIAlertControllerStyleAlert];
@@ -73,6 +140,7 @@
         
         self.ref = [[FIRDatabase database] reference];
         
+    
 
         NSString *userID = [FIRAuth auth].currentUser.uid;
         
@@ -112,130 +180,83 @@
             NSRange range = [intervalString rangeOfString:@"."];
              NSString *primarykey = [intervalString substringToIndex:range.location];
             NSString *pKey = [userID stringByAppendingString:primarykey];
+            [rowValue setString:pKey];
+            [senderName setString:[dict valueForKey:@"First Name"]];
+            [senderName appendString:@" "];
+            [senderName appendString:[dict valueForKey:@"Last Name"]];
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/invites/%@/", pKey]: post};
             [_ref updateChildValues:childUpdates];
             
-            
-            
-        }];
-        
+           }];
     
+        while([rowValue length]== 0 && [senderName length] ==0) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        }
+        
+        
+     // -------------------- SEND SMS ------------------------------------
+    
+    if([self.guestEMailText.text length] ==0  && [self.guestPhoneText.text length] > 0) {
+        
+        
+        
+        if(![MFMessageComposeViewController canSendText]) {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Error" message:@"Your Device Does not support SMS" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [ac addAction:aa];
+            [self presentViewController:ac animated:YES completion:nil];
+            return;
+        }
+        
+        
+        
+        
+       
+        NSArray *recipents = [NSArray arrayWithObject:self.guestPhoneText.text];
+       
+        
+        NSString *message = [NSString stringWithFormat:@"Hey! %@ , You are invited by %@, Please login/Register to GuestVite App for more Details ,Thanks!",self.guestNameText.text,senderName];
+        
+        MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+        messageController.messageComposeDelegate = self;
+        [messageController setRecipients:recipents];
+        [messageController setBody:message];
+        
+        
+        [self presentViewController:messageController animated:YES completion:nil];
+        
     }
     
-    // Check if the E_mail and (or) password exists
-    
-    if([self.guestEMailText.text length] >0  && [self.guestPhoneText.text length] == 0) {
         
-        NSLog(@"Only Guest Email Available");
+        // -------------------- SEND EMAIL ------------------------------------
         
-        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+        
+        if([self.guestEMailText.text length] > 0  && [self.guestPhoneText.text length] == 0) {
+            
+            // Email Subject
+            NSString *emailTitle = @"Message From GeuestVite";
+            // Email Content
+            NSString *messageBody = [NSString stringWithFormat:@"Hey! %@ , This is %@  and I want to invite you at my place , please login to this new cool App GuestVite! for all further details, Thanks and looking forward to see you soon!",self.guestNameText.text,senderName];
+            // To address
+            NSArray *toRecipents = [NSArray arrayWithObject:self.guestEMailText.text];
+            
+            MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+            mc.mailComposeDelegate = self;
+            [mc setSubject:emailTitle];
+            [mc setMessageBody:messageBody isHTML:NO];
+            [mc setToRecipients:toRecipents];
+            
+            // Present mail view controller on screen
+            [self presentViewController:mc animated:YES completion:NULL];
 
-            NSLog(@"%@",snapshot);
-            
-            NSDictionary *dict = snapshot.value;
             
             
-            NSArray * arr = [dict allValues];
-            
-            BOOL isaMember = FALSE;
-            
-            for (int i = 0; i < [arr count]; i++) {
-            
-                if([arr[i][@"EMail"] isEqualToString:self.guestEMailText.text]) {
-                    NSLog(@"Guest Is a member");
-                    isaMember = TRUE;
-                    break;
-                }
-                
-            }
-            
-            if(!isaMember) {
-                NSLog(@"Guest Is NOT a member");
-            }
-            
-            
-        }];
-        
-    }
-    
-    // Only Phone
-    else if([self.guestPhoneText.text length] >0  && [self.guestEMailText.text length] == 0) {
-        
-        
-        NSLog(@"Only Phone Available");
-        
-        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-            
-            NSLog(@"%@",snapshot);
-            
-            NSDictionary *dict = snapshot.value;
-            
-            
-            NSArray * arr = [dict allValues];
-            
-            BOOL isaMember = FALSE;
-            
-            for (int i = 0; i < [arr count]; i++) {
-                
-                if([arr[i][@"Phone"] isEqualToString:self.guestPhoneText.text]) {
-                    NSLog(@"Guest Is a member");
-                    isaMember = TRUE;
-                    break;
-                }
-                
-            }
-            
-            if(!isaMember) {
-                NSLog(@"Guest Is NOT a member");
-            }
-            
-            
-        }];
-
-        
+        }
         
         
     }
-    
-    
-    
-    else if([self.guestPhoneText.text length] >0  && [self.guestEMailText.text length] > 0) {
-        
-        
-        NSLog(@"Both Available");
-        
-        [[_ref child:@"users"] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-            
-            NSLog(@"%@",snapshot);
-            
-            NSDictionary *dict = snapshot.value;
-            
-            
-            NSArray * arr = [dict allValues];
-            
-            BOOL isaMember = FALSE;
-            
-            for (int i = 0; i < [arr count]; i++) {
-                
-                if([arr[i][@"EMail"] isEqualToString:self.guestEMailText.text] && [arr[i][@"Phone"] isEqualToString:self.guestPhoneText.text]) {
-                    NSLog(@"Guest Is a member");
-                    isaMember = TRUE;
-                    break;
-                }
-                
-            }
-            
-            if(!isaMember) {
-                NSLog(@"Guest Is NOT a member");
-            }
-            
-            
-        }];
-        
-
-        
-    }
-    
     
 }
 

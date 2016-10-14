@@ -15,6 +15,7 @@
 		84267C0C1DAC708B0044ACF4 /* Hello.gif in Resources */ = {isa = PBXBuildFile; fileRef = 84267C0B1DAC708B0044ACF4 /* Hello.gif */; };
 		84267C101DAD9CF10044ACF4 /* SendNewInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C0E1DAD9CF10044ACF4 /* SendNewInviteViewController.m */; };
 		84267C111DAD9CF10044ACF4 /* SendNewInviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84267C0F1DAD9CF10044ACF4 /* SendNewInviteViewController.xib */; };
+		84267C141DB04A7C0044ACF4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C131DB04A7C0044ACF4 /* MessageUI.framework */; };
 		847340491DA937670038C047 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847340481DA937670038C047 /* main.m */; };
 		8473404C1DA937670038C047 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404B1DA937670038C047 /* AppDelegate.m */; };
 		8473404F1DA937670038C047 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404E1DA937670038C047 /* ViewController.m */; };
@@ -47,6 +48,7 @@
 		84267C0E1DAD9CF10044ACF4 /* SendNewInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendNewInviteViewController.m; sourceTree = "<group>"; };
 		84267C0F1DAD9CF10044ACF4 /* SendNewInviteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendNewInviteViewController.xib; sourceTree = "<group>"; };
 		84267C121DAF1DBE0044ACF4 /* SignOut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignOut.h; sourceTree = "<group>"; };
+		84267C131DB04A7C0044ACF4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		847340441DA937670038C047 /* GuestVite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestVite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847340481DA937670038C047 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8473404A1DA937670038C047 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84267C141DB04A7C0044ACF4 /* MessageUI.framework in Frameworks */,
 				8807A8849A35A4DFD7FB6C87 /* libPods-GuestVite.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +96,7 @@
 		79FB75469F7F70C8F6489125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84267C131DB04A7C0044ACF4 /* MessageUI.framework */,
 				14E4060546172690D586480F /* libPods-GuestVite.a */,
 			);
 			name = Frameworks;
