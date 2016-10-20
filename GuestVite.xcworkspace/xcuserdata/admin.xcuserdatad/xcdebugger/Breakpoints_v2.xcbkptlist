@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuestVite/SendBulkInviteViewController.m"
-            timestampString = "498623446.906998"
+            timestampString = "498681663.730079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-sendTapped:"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "-sendSMSTapped:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GuestVite/SendBulkInviteViewController.m"
-            timestampString = "498623446.906998"
+            timestampString = "498681663.730079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
-            landmarkName = "-sendTapped:"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
