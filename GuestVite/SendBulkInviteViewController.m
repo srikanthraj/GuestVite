@@ -7,6 +7,7 @@
 //
 
 #import "SendBulkInviteViewController.h"
+#import "SendAddressBookInviteViewController.h"
 #import "SendNewInviteViewController.h"
 #import <MessageUI/MessageUI.h>
 
@@ -93,6 +94,20 @@
         
         [self presentViewController:sendNewVC animated:YES completion:nil];
     }
+    
+    if(self.segmentControl.selectedSegmentIndex ==2){
+        
+        
+        SendAddressBookInviteViewController *sendAddrVC =
+        [[SendAddressBookInviteViewController alloc] initWithNibName:@"SendAddressBookInviteViewController" bundle:nil];
+        
+        //hPViewController.userName  = eMailEntered;
+        [self.navigationController pushViewController:sendAddrVC animated:YES];
+        
+        [self presentViewController:sendAddrVC animated:YES completion:nil];
+    }
+
+    
 }
 
 
