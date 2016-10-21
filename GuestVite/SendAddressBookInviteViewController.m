@@ -11,9 +11,15 @@
 #import "SendBulkInviteViewController.h"
 #import "SendNewInviteViewController.h"
 
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
+
+
+#import <ContactsUI/ContactsUI.h>
+
 @import Firebase;
 
-@interface SendAddressBookInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UITextViewDelegate>
+@interface SendAddressBookInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UITextViewDelegate, CNContactPickerDelegate,ABPeoplePickerNavigationControllerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITextView *eMailguestList;
@@ -27,6 +33,18 @@
 @property (weak, nonatomic) IBOutlet UITextView *smsGuestList;
 
 @property (strong, nonatomic) FIRDatabaseReference *ref;
+@property (weak, nonatomic) IBOutlet UIButton *addressBookButton;
+
+@property (nonatomic, strong) NSMutableArray *arrContactsData;
+
+@property (nonatomic, strong) NSDictionary *dictContactDetails;
+
+@property (nonatomic, strong) ABPeoplePickerNavigationController *addressBookController;
+-(void)showAddressBook;
+
+-(void)populateContactData;
+
+-(void)selectContactData;
 
 @end
 
@@ -35,6 +53,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
     
     self.ref = [[FIRDatabase database] reference];
     
@@ -73,6 +93,145 @@
     
     
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
+    
+}
+
+
+-(void)peoplePickerNavigationControllerDidCancel:(CNContactPickerViewController *)peoplePicker{
+    [_addressBookController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+
+
+-(void)peoplePickerNavigationController:(CNContactPickerViewController *)peoplePicker didSelectPerson:(ABRecordRef)person{
+    
+    
+    
+    NSMutableDictionary *contactInfoDict = [[NSMutableDictionary alloc]
+                                            initWithObjects:@[@"", @"",@"", @""]
+                                            forKeys:@[@"firstName", @"lastName",@"mobileNumber", @"homeNumber"]];
+    
+    CFTypeRef generalCFObject;
+    
+    //Get First name
+    
+    generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    if (generalCFObject) {
+        [contactInfoDict setObject:(__bridge NSString *)generalCFObject forKey:@"firstName"];
+        CFRelease(generalCFObject);
+    }
+    
+    //Get Last Name
+    
+    generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
+    if (generalCFObject) {
+        [contactInfoDict setObject:(__bridge NSString *)generalCFObject forKey:@"lastName"];
+        CFRelease(generalCFObject);
+    }
+    
+    
+    //Phone
+    
+    
+    ABMultiValueRef phonesRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    
+    for (int i=0; i<ABMultiValueGetCount(phonesRef); i++) {
+        CFStringRef currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phonesRef, i);
+        CFStringRef currentPhoneValue = ABMultiValueCopyValueAtIndex(phonesRef, i);
+        
+        if (CFStringCompare(currentPhoneLabel, kABPersonPhoneMobileLabel, 0) == kCFCompareEqualTo) {
+            [contactInfoDict setObject:(__bridge NSString *)currentPhoneValue forKey:@"mobileNumber"];
+        }
+        
+        if (CFStringCompare(currentPhoneLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
+            [contactInfoDict setObject:(__bridge NSString *)currentPhoneValue forKey:@"homeNumber"];
+        }
+        
+        if(currentPhoneLabel)
+        {
+        CFRelease(currentPhoneLabel);
+        }
+        if(currentPhoneValue)
+        {
+            CFRelease(currentPhoneValue);
+        }
+    }
+    if(phonesRef)
+    {
+    CFRelease(phonesRef);
+    }
+    
+    if (_arrContactsData == nil) {
+        _arrContactsData = [[NSMutableArray alloc] init];
+    }
+    [_arrContactsData addObject:contactInfoDict];
+    
+    
+    //[self.tableView reloadData];
+    
+    [_addressBookController dismissViewControllerAnimated:YES completion:nil];
+    
+    NSLog(@"CONTACT INFO DICTIONARY %@",contactInfoDict);
+    
+    NSString *tempo = [NSString stringWithFormat:@"%@ %@: %@ %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"],[contactInfoDict objectForKey:@"homeNumber"]];
+    
+    self.eMailguestList.text = [self.eMailguestList.text stringByAppendingString:tempo];
+                                
+                                
+                                
+
+     
+    NSLog(@"Inside!!!");
+    //return NO;
+}
+
+
+
+-(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier{
+    return NO;
+}
+
+
+-(void)showAddressBook{
+    _addressBookController = [[ABPeoplePickerNavigationController alloc] init];
+    [_addressBookController setPeoplePickerDelegate:self];
+    [self presentViewController:_addressBookController animated:YES completion:nil];
+}
+
+
+-(void)populateContactData{
+    NSString *contactFullName = [NSString stringWithFormat:@"%@ %@", [_dictContactDetails objectForKey:@"firstName"], [_dictContactDetails objectForKey:@"lastName"]];
+    
+    [self.eMailguestList setText:contactFullName];
+    
+}
+
+-(void)selectContactData {
+
+    CNContactPickerViewController * picker = [[CNContactPickerViewController alloc] init];
+    
+    picker.delegate = self;
+    picker.displayedPropertyKeys = (NSArray *)CNContactGivenNameKey;
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
+}
+
+-(void)contactPicker:(CNContactPickerViewController *)picker didSelectContact:(CNContact *)contact {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    NSString *test = contact.givenName;
+    NSLog(@"NAME IS  %@",test);
+}
+
+- (IBAction)addressButtonTapped:(id)sender {
+    
+    
+    //[self selectContactData];
+    [self showAddressBook];
+    [self populateContactData];
     
 }
 
