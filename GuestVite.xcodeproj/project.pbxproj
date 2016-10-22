@@ -20,11 +20,8 @@
 		84267C191DB083D10044ACF4 /* SendBulkInviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84267C171DB083D10044ACF4 /* SendBulkInviteViewController.xib */; };
 		84267C1D1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C1B1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.m */; };
 		84267C1E1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84267C1C1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib */; };
-		84267C221DB9B6F60044ACF4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C211DB9B6F60044ACF4 /* AddressBook.framework */; };
-		84267C241DB9B6FE0044ACF4 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C231DB9B6FE0044ACF4 /* AddressBookUI.framework */; };
 		84267C261DB9B70B0044ACF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C251DB9B70B0044ACF4 /* UIKit.framework */; };
 		84267C281DB9B7130044ACF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C271DB9B7130044ACF4 /* Foundation.framework */; };
-		84267C2A1DB9B71B0044ACF4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C291DB9B71B0044ACF4 /* CoreGraphics.framework */; };
 		847340491DA937670038C047 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847340481DA937670038C047 /* main.m */; };
 		8473404C1DA937670038C047 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404B1DA937670038C047 /* AppDelegate.m */; };
 		8473404F1DA937670038C047 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404E1DA937670038C047 /* ViewController.m */; };
@@ -64,11 +61,8 @@
 		84267C1A1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendAddressBookInviteViewController.h; sourceTree = "<group>"; };
 		84267C1B1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendAddressBookInviteViewController.m; sourceTree = "<group>"; };
 		84267C1C1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendAddressBookInviteViewController.xib; sourceTree = "<group>"; };
-		84267C211DB9B6F60044ACF4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		84267C231DB9B6FE0044ACF4 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		84267C251DB9B70B0044ACF4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84267C271DB9B7130044ACF4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		84267C291DB9B71B0044ACF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		847340441DA937670038C047 /* GuestVite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestVite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847340481DA937670038C047 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8473404A1DA937670038C047 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -96,11 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84267C2A1DB9B71B0044ACF4 /* CoreGraphics.framework in Frameworks */,
 				84267C281DB9B7130044ACF4 /* Foundation.framework in Frameworks */,
 				84267C261DB9B70B0044ACF4 /* UIKit.framework in Frameworks */,
-				84267C241DB9B6FE0044ACF4 /* AddressBookUI.framework in Frameworks */,
-				84267C221DB9B6F60044ACF4 /* AddressBook.framework in Frameworks */,
 				84267C141DB04A7C0044ACF4 /* MessageUI.framework in Frameworks */,
 				8807A8849A35A4DFD7FB6C87 /* libPods-GuestVite.a in Frameworks */,
 			);
@@ -121,11 +112,8 @@
 		79FB75469F7F70C8F6489125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				84267C291DB9B71B0044ACF4 /* CoreGraphics.framework */,
 				84267C271DB9B7130044ACF4 /* Foundation.framework */,
 				84267C251DB9B70B0044ACF4 /* UIKit.framework */,
-				84267C231DB9B6FE0044ACF4 /* AddressBookUI.framework */,
-				84267C211DB9B6F60044ACF4 /* AddressBook.framework */,
 				84267C131DB04A7C0044ACF4 /* MessageUI.framework */,
 				14E4060546172690D586480F /* libPods-GuestVite.a */,
 			);

@@ -14,6 +14,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 
+#import "KBContactsSelectionViewController.h"
 
 #import <ContactsUI/ContactsUI.h>
 
@@ -36,6 +37,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *addressBookButton;
 
 @property (nonatomic, strong) NSMutableArray *arrContactsData;
+
+@property (nonatomic, strong) NSMutableArray *emailContactsData;
+
+@property (nonatomic, strong) NSMutableArray *phoneContactsData;
 
 @property (nonatomic, strong) NSDictionary *dictContactDetails;
 
@@ -94,6 +99,9 @@
     
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:doneButton, nil]];
     
+    self.phoneContactsData = [[NSMutableArray alloc]init];
+    self.emailContactsData = [[NSMutableArray alloc]init];
+    
 }
 
 
@@ -110,8 +118,8 @@
     
     
     NSMutableDictionary *contactInfoDict = [[NSMutableDictionary alloc]
-                                            initWithObjects:@[@"", @"",@"", @""]
-                                            forKeys:@[@"firstName", @"lastName",@"mobileNumber", @"homeNumber"]];
+                                            initWithObjects:@[@"", @"",@"", @"",@""]
+                                            forKeys:@[@"firstName", @"lastName",@"mobileNumber", @"homeNumber",@"EMail"]];
     
     CFTypeRef generalCFObject;
     
@@ -163,6 +171,30 @@
     CFRelease(phonesRef);
     }
     
+    //E-Mails
+    
+    ABMultiValueRef emailsRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+    
+    NSMutableArray *allEmails = [[NSMutableArray alloc] init];
+    
+    for (int i=0; i<ABMultiValueGetCount(emailsRef); i++) {
+       // CFStringRef currentEmailLabel = ABMultiValueCopyLabelAtIndex(emailsRef, i);
+       // CFStringRef currentEmailValue = ABMultiValueCopyValueAtIndex(emailsRef, i);
+        
+        //NSString *email = (__bridge NSString*)ABMultiValueCopyValueAtIndex(emailsRef, i);
+        [contactInfoDict setObject:(__bridge NSString*)ABMultiValueCopyValueAtIndex(emailsRef, i) forKey:@"EMail"];
+        //[email release];
+    }
+    
+   // NSLog(@"ALL EMAILS %@",allEmails);
+    if(emailsRef)
+    {
+    CFRelease(emailsRef);
+    }
+    
+    
+    
+    
     if (_arrContactsData == nil) {
         _arrContactsData = [[NSMutableArray alloc] init];
     }
@@ -173,14 +205,112 @@
     
     [_addressBookController dismissViewControllerAnimated:YES completion:nil];
     
-    NSLog(@"CONTACT INFO DICTIONARY %@",contactInfoDict);
+    //NSLog(@"CONTACT INFO DICTIONARY %@",contactInfoDict);
     
-    NSString *tempo = [NSString stringWithFormat:@"%@ %@: %@ %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"],[contactInfoDict objectForKey:@"homeNumber"]];
+    NSString *tempo = [[NSString alloc]init];
     
-    self.eMailguestList.text = [self.eMailguestList.text stringByAppendingString:tempo];
-                                
-                                
-                                
+    NSString *tempoEMail = [[NSString alloc]init];
+    
+    if([[contactInfoDict objectForKey:@"mobileNumber"] length] != 0)
+    {
+    tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"]];
+    
+    }
+    
+    else if([[contactInfoDict objectForKey:@"homeNumber"] length] != 0)
+    {
+        tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"homeNumber"]];
+    }
+    
+    
+    if([[contactInfoDict objectForKey:@"EMail"] length] != 0)
+    {
+        tempoEMail = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"EMail"]];
+        
+    }
+    
+   // NSLog(@"TEMPO %@",tempo);
+   //NSLog(@"TEMPO EMAIL %@",tempoEMail);
+    
+    
+    [self.phoneContactsData addObject:tempo];
+    
+    [self.emailContactsData addObject:tempoEMail];
+    
+    
+   //NSLog(@"LENGTH of array %lu",(unsigned long)[self.emailContactsData count]);
+    
+   // NSLog(@"MOBILE NUMBER = %@", [contactInfoDict objectForKey:@"mobileNumber"]);
+    
+   // NSLog(@"HOME NUMBER = %@", [contactInfoDict objectForKey:@"homeNumber"]);
+    
+    //NSLog(@"EMAIL = %@", [contactInfoDict objectForKey:@"EMail"]);
+    
+    // Check for Mobile Number
+    
+    if(([[contactInfoDict objectForKey:@"mobileNumber"] length] !=0))
+    {
+        
+        tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"]];
+    
+        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
+    if([self.smsGuestList.text isEqualToString:@"Enter Phone Numbers here"]){
+        self.smsGuestList.text = [tempo stringByAppendingString:@"\n"];
+        
+    }
+    
+    else {
+        
+        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
+        
+        self.smsGuestList.text = [self.smsGuestList.text stringByAppendingString:[tempo stringByAppendingString:@"\n"]];
+    }
+    
+    }
+    
+    // Take Home Number If Mobile Number is ot there
+    
+    else if(([[contactInfoDict objectForKey:@"homeNumber"] length] !=0))
+    {
+        
+        tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"homeNumber"]];
+        
+        
+        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
+        if([self.smsGuestList.text isEqualToString:@"Enter Phone Numbers here"]){
+            self.smsGuestList.text = [tempo stringByAppendingString:@"\n"];
+            
+        }
+        
+        else {
+            
+            NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
+            
+            self.smsGuestList.text = [self.smsGuestList.text stringByAppendingString:[tempo stringByAppendingString:@"\n"]];
+        }
+        
+    }
+    
+    
+    // Check for E-Mail
+    
+    if([[contactInfoDict objectForKey:@"EMail"] length] !=0)
+    {
+        NSLog(@"EMAIL CONTACTS DATA %@",[self.emailContactsData objectAtIndex:0]);
+    
+    if([self.eMailguestList.text isEqualToString:@"Enter Email Addressses here"]){
+        self.eMailguestList.text = [[self.emailContactsData objectAtIndex:0] stringByAppendingString:@"\n"];
+        
+    }
+    
+    else {
+        
+        NSLog(@"EMAIL CONTACTS DATA %@",[self.emailContactsData objectAtIndex:[self.emailContactsData count] -1 ]);
+        
+        self.eMailguestList.text = [self.eMailguestList.text stringByAppendingString:[[self.emailContactsData objectAtIndex:[self.emailContactsData count] -1 ] stringByAppendingString:@"\n"]];
+    }
+
+    }
 
      
     NSLog(@"Inside!!!");
@@ -204,7 +334,7 @@
 -(void)populateContactData{
     NSString *contactFullName = [NSString stringWithFormat:@"%@ %@", [_dictContactDetails objectForKey:@"firstName"], [_dictContactDetails objectForKey:@"lastName"]];
     
-    [self.eMailguestList setText:contactFullName];
+    //[self.eMailguestList setText:contactFullName];
     
 }
 
@@ -231,7 +361,9 @@
     
     //[self selectContactData];
     [self showAddressBook];
-    [self populateContactData];
+    //[self populateContactData];
+    
+    
     
 }
 

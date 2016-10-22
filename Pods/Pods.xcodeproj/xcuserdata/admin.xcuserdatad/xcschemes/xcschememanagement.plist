@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>APAddressBook.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>KBContactsSelection.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-GuestVite.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -12,7 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6C00A54396232A6B2202B24AFE2D758C</key>
+		<key>114E16E446CF5148F8AADF1ED4B98826</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DA17884156D67867C1321919546DCA90</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E3A6139ABFF012CD889133D427F8887B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
