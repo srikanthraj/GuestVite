@@ -121,6 +121,9 @@
                         <constraint firstAttribute="height" constant="30" id="Wmg-Yh-ODf"/>
                     </constraints>
                     <state key="normal" title="Send SMS"/>
+                    <connections>
+                        <action selector="sendSMSTapped:" destination="-1" eventType="touchUpInside" id="wdE-Rm-bR9"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPX-eZ-XDR">
                     <rect key="frame" x="197" y="530" width="83" height="30"/>
@@ -131,6 +134,9 @@
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="83" id="xYq-bn-NN4"/>
                     </constraints>
                     <state key="normal" title="Send E-Mail"/>
+                    <connections>
+                        <action selector="sendEMailTapped:" destination="-1" eventType="touchUpInside" id="xsd-fd-X0a"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

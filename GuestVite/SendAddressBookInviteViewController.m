@@ -205,55 +205,20 @@
     
     [_addressBookController dismissViewControllerAnimated:YES completion:nil];
     
-    //NSLog(@"CONTACT INFO DICTIONARY %@",contactInfoDict);
+    
     
     NSString *tempo = [[NSString alloc]init];
     
     NSString *tempoEMail = [[NSString alloc]init];
     
-    if([[contactInfoDict objectForKey:@"mobileNumber"] length] != 0)
-    {
-    tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"]];
-    
-    }
-    
-    else if([[contactInfoDict objectForKey:@"homeNumber"] length] != 0)
-    {
-        tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"homeNumber"]];
-    }
-    
-    
-    if([[contactInfoDict objectForKey:@"EMail"] length] != 0)
-    {
-        tempoEMail = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"EMail"]];
-        
-    }
-    
-   // NSLog(@"TEMPO %@",tempo);
-   //NSLog(@"TEMPO EMAIL %@",tempoEMail);
-    
-    
-    [self.phoneContactsData addObject:tempo];
-    
-    [self.emailContactsData addObject:tempoEMail];
-    
-    
-   //NSLog(@"LENGTH of array %lu",(unsigned long)[self.emailContactsData count]);
-    
-   // NSLog(@"MOBILE NUMBER = %@", [contactInfoDict objectForKey:@"mobileNumber"]);
-    
-   // NSLog(@"HOME NUMBER = %@", [contactInfoDict objectForKey:@"homeNumber"]);
-    
-    //NSLog(@"EMAIL = %@", [contactInfoDict objectForKey:@"EMail"]);
-    
-    // Check for Mobile Number
     
     if(([[contactInfoDict objectForKey:@"mobileNumber"] length] !=0))
     {
         
         tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"mobileNumber"]];
+        [self.phoneContactsData addObject:[contactInfoDict objectForKey:@"mobileNumber"]];
     
-        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
+        //NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
     if([self.smsGuestList.text isEqualToString:@"Enter Phone Numbers here"]){
         self.smsGuestList.text = [tempo stringByAppendingString:@"\n"];
         
@@ -261,7 +226,7 @@
     
     else {
         
-        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
+        //NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"mobileNumber"]);
         
         self.smsGuestList.text = [self.smsGuestList.text stringByAppendingString:[tempo stringByAppendingString:@"\n"]];
     }
@@ -275,8 +240,9 @@
         
         tempo = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"homeNumber"]];
         
+        [self.phoneContactsData addObject:[contactInfoDict objectForKey:@"homeNumber"]];
         
-        NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
+        //NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
         if([self.smsGuestList.text isEqualToString:@"Enter Phone Numbers here"]){
             self.smsGuestList.text = [tempo stringByAppendingString:@"\n"];
             
@@ -284,7 +250,7 @@
         
         else {
             
-            NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
+            //NSLog(@"PHONE CONTACTS DATA %@",[contactInfoDict objectForKey:@"homeNumber"]);
             
             self.smsGuestList.text = [self.smsGuestList.text stringByAppendingString:[tempo stringByAppendingString:@"\n"]];
         }
@@ -296,24 +262,29 @@
     
     if([[contactInfoDict objectForKey:@"EMail"] length] !=0)
     {
-        NSLog(@"EMAIL CONTACTS DATA %@",[self.emailContactsData objectAtIndex:0]);
+        tempoEMail = [NSString stringWithFormat:@"%@ %@: %@",[contactInfoDict objectForKey:@"firstName"],[contactInfoDict objectForKey:@"lastName"],[contactInfoDict objectForKey:@"EMail"]];
+        
+        [self.emailContactsData addObject:[contactInfoDict objectForKey:@"EMail"]];
+        
+        
+        //NSLog(@"EMAIL CONTACTS DATA %@",[contactInfoDict objectForKey:@"EMail"]);
     
     if([self.eMailguestList.text isEqualToString:@"Enter Email Addressses here"]){
-        self.eMailguestList.text = [[self.emailContactsData objectAtIndex:0] stringByAppendingString:@"\n"];
+        self.eMailguestList.text = [tempoEMail stringByAppendingString:@"\n"];
         
     }
     
     else {
         
-        NSLog(@"EMAIL CONTACTS DATA %@",[self.emailContactsData objectAtIndex:[self.emailContactsData count] -1 ]);
+        //NSLog(@"EMAIL CONTACTS DATA %@",[contactInfoDict objectForKey:@"EMail"]);
         
-        self.eMailguestList.text = [self.eMailguestList.text stringByAppendingString:[[self.emailContactsData objectAtIndex:[self.emailContactsData count] -1 ] stringByAppendingString:@"\n"]];
+        self.eMailguestList.text = [self.eMailguestList.text stringByAppendingString:[tempoEMail stringByAppendingString:@"\n"]];
     }
 
     }
 
      
-    NSLog(@"Inside!!!");
+    //NSLog(@"Inside!!!");
     //return NO;
 }
 
@@ -444,10 +415,223 @@
     
     
     
+    
 }
 
 
+- (IBAction)sendSMSTapped:(id)sender {
+    
+    __block NSMutableString *rowValue = [[NSMutableString alloc] init];
+    
+    __block NSMutableString *senderName = [[NSMutableString alloc] init];
+    
+    NSLog(@"SMS LIST %@", self.phoneContactsData);
+    
+    if([self.phoneContactsData count] ==0) {
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"GuestVite" message:@"At Least One Guest Info is required"preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        
+        [ac addAction:aa];
+        [self presentViewController:ac animated:YES completion:nil];
+    }
 
+    else{
+        
+        self.ref = [[FIRDatabase database] reference];
+        
+        
+        
+        NSString *userID = [FIRAuth auth].currentUser.uid;
+        
+        //NSLog(@"User Id %@",userID);
+        
+        [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+            
+            NSDictionary *dict = snapshot.value;
+            for(NSString *address in self.phoneContactsData){
+                
+                NSDictionary *post = @{@"Sender First Name": [dict valueForKey:@"First Name"],
+                                       @"Sender Last Name": [dict valueForKey:@"Last Name"],
+                                       @"Sender EMail": [dict valueForKey:@"EMail"],
+                                       @"Sender Address1": [dict valueForKey:@"Address1"],
+                                       @"Sender Address2": [dict valueForKey:@"Address2"],
+                                       @"Sender City": [dict valueForKey:@"City"],
+                                       @"Sender Zip": [dict valueForKey:@"Zip"],
+                                       @"Sender Phone": [dict valueForKey:@"Phone"],
+                                       @"Mesage From Sender": self.inviteMessage.text,
+                                       @"Receiver First Name": @"BULK",
+                                       @"Receiver Last Name": @"BULK",
+                                       @"Receiver EMail": @"BULK",
+                                       @"Receiver Phone": address,
+                                       @"Invite For Date": self.inviteForDateText.text,
+                                       @"Invite Valid Till Date": self.inviteExpireDateText.text,
+                                       @"Invitation Status": @"Pending",
+                                       };//Dict post
+                
+                
+                NSTimeInterval timeInSeconds = [[NSDate date] timeIntervalSince1970];
+                NSString *intervalString = [NSString stringWithFormat:@"%f", timeInSeconds];
+                NSRange range = [intervalString rangeOfString:@"."];
+                NSString *primarykey = [intervalString substringToIndex:range.location];
+                NSString *pkey1 = [userID stringByAppendingString:primarykey];
+                
+                NSString *pkey2 = [pkey1 stringByAppendingString:@"_"] ;
+                
+                NSString *pKey = [pkey2 stringByAppendingString:[NSString stringWithFormat:@"%lu",(unsigned long)[self.phoneContactsData indexOfObject:address]]];
+                
+                [rowValue setString:pKey];
+                [senderName setString:[dict valueForKey:@"First Name"]];
+                [senderName appendString:@" "];
+                [senderName appendString:[dict valueForKey:@"Last Name"]];
+                NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/invites/%@/", pKey]: post};
+                [_ref updateChildValues:childUpdates];
+                
+                
+            }
+        }];
+        
+        while([rowValue length]== 0 && [senderName length] ==0) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        }
+        
+        
+        if(![MFMessageComposeViewController canSendText]) {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Error" message:@"Your Device Does not support SMS" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [ac addAction:aa];
+            [self presentViewController:ac animated:YES completion:nil];
+            return;
+        }
+        
+        NSString *message = [NSString stringWithFormat:@"Hey!, You are invited by %@ as a guest, Please login/Register to GuestVite App for more Details ,Thanks!",senderName];
+        
+        MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+        messageController.messageComposeDelegate = self;
+        [messageController setRecipients:self.phoneContactsData];
+        [messageController setBody:message];
+        
+        
+        [self presentViewController:messageController animated:YES completion:nil];
+
+
+        
+        }//else ends
+    
+    
+    
+}
+
+- (IBAction)sendEMailTapped:(id)sender {
+    
+    __block NSMutableString *rowValue = [[NSMutableString alloc] init];
+    
+    __block NSMutableString *senderName = [[NSMutableString alloc] init];
+    
+    NSLog(@"E- Mail LIST %@", self.emailContactsData);
+    
+    if([self.emailContactsData count] ==0) {
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"GuestVite" message:@"At Least One Guest Info is required"preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        
+        [ac addAction:aa];
+        [self presentViewController:ac animated:YES completion:nil];
+    }
+    
+    
+    else{
+        
+        self.ref = [[FIRDatabase database] reference];
+        
+        
+        
+        NSString *userID = [FIRAuth auth].currentUser.uid;
+        
+        //NSLog(@"User Id %@",userID);
+        
+        [[[_ref child:@"users"] child:userID] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+            
+            NSDictionary *dict = snapshot.value;
+
+            for(NSString *address in self.emailContactsData){
+                
+                NSDictionary *post = @{@"Sender First Name": [dict valueForKey:@"First Name"],
+                                       @"Sender Last Name": [dict valueForKey:@"Last Name"],
+                                       @"Sender EMail": [dict valueForKey:@"EMail"],
+                                       @"Sender Address1": [dict valueForKey:@"Address1"],
+                                       @"Sender Address2": [dict valueForKey:@"Address2"],
+                                       @"Sender City": [dict valueForKey:@"City"],
+                                       @"Sender Zip": [dict valueForKey:@"Zip"],
+                                       @"Sender Phone": [dict valueForKey:@"Phone"],
+                                       @"Mesage From Sender": self.inviteMessage.text,
+                                       @"Receiver First Name": @"BULK",
+                                       @"Receiver Last Name": @"BULK",
+                                       @"Receiver EMail": address,
+                                       @"Receiver Phone": @"BULK",
+                                       @"Invite For Date": self.inviteForDateText.text,
+                                       @"Invite Valid Till Date": self.inviteExpireDateText.text,
+                                       @"Invitation Status": @"Pending",
+                                       };
+                NSTimeInterval timeInSeconds = [[NSDate date] timeIntervalSince1970];
+                NSString *intervalString = [NSString stringWithFormat:@"%f", timeInSeconds];
+                NSRange range = [intervalString rangeOfString:@"."];
+                NSString *primarykey = [intervalString substringToIndex:range.location];
+                
+                NSString *pkey1 = [userID stringByAppendingString:primarykey];
+                
+                NSString *pkey2 = [pkey1 stringByAppendingString:@"_"] ;
+                
+                NSString *pKey = [pkey2 stringByAppendingString:[NSString stringWithFormat:@"%lu",(unsigned long)[self.emailContactsData indexOfObject:address]]];
+                
+                
+                [rowValue setString:pKey];
+                [senderName setString:[dict valueForKey:@"First Name"]];
+                [senderName appendString:@" "];
+                [senderName appendString:[dict valueForKey:@"Last Name"]];
+                NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/invites/%@/", pKey]: post};
+                [_ref updateChildValues:childUpdates];
+                
+                
+            }
+
+            
+            
+            
+        }];
+        
+        while([rowValue length]== 0 && [senderName length] ==0) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        }
+        
+        
+        // Email Subject
+        NSString *emailTitle = @"Message From GeuestVite";
+        // Email Content
+        NSString *messageBody = [NSString stringWithFormat:@"Hey!, This is %@  and I want to invite you at my place , please login to this new cool App GuestVite! for all further details, Thanks and looking forward to see you soon!",senderName];
+        // To address
+        //NSArray *toRecipents = [NSArray arrayWithObject:self.guestEMailText.text];
+        
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        [mc setToRecipients:self.emailContactsData];
+        
+        // Present mail view controller on screen
+        [self presentViewController:mc animated:YES completion:NULL];
+        
+        
+        
+        }// else ends
+    
+    
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -455,14 +639,61 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            break;
+            
+            
+            
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
+
+
+
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            // NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            // NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent: {
+            //NSLog(@"Mail SENT!!!");
+            
+            break;
+        }
+        case MFMailComposeResultFailed:
+            //NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 
 @end
