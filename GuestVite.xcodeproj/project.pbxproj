@@ -22,6 +22,11 @@
 		84267C1E1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84267C1C1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib */; };
 		84267C261DB9B70B0044ACF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C251DB9B70B0044ACF4 /* UIKit.framework */; };
 		84267C281DB9B7130044ACF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84267C271DB9B7130044ACF4 /* Foundation.framework */; };
+		84267C331DBBBF1C0044ACF4 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C2C1DBBBF1C0044ACF4 /* DateUtil.m */; };
+		84267C341DBBBF1C0044ACF4 /* DMLazyScrollView in Resources */ = {isa = PBXBuildFile; fileRef = 84267C2D1DBBBF1C0044ACF4 /* DMLazyScrollView */; };
+		84267C351DBBBF1C0044ACF4 /* SACalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C2F1DBBBF1C0044ACF4 /* SACalendar.m */; };
+		84267C361DBBBF1C0044ACF4 /* SACalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C311DBBBF1C0044ACF4 /* SACalendarCell.m */; };
+		84267C391DBBC81E0044ACF4 /* DMLazyScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84267C381DBBC81E0044ACF4 /* DMLazyScrollView.m */; };
 		847340491DA937670038C047 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847340481DA937670038C047 /* main.m */; };
 		8473404C1DA937670038C047 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404B1DA937670038C047 /* AppDelegate.m */; };
 		8473404F1DA937670038C047 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8473404E1DA937670038C047 /* ViewController.m */; };
@@ -63,6 +68,16 @@
 		84267C1C1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendAddressBookInviteViewController.xib; sourceTree = "<group>"; };
 		84267C251DB9B70B0044ACF4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84267C271DB9B7130044ACF4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		84267C2B1DBBBF1C0044ACF4 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateUtil.h; path = "../../../../Downloads/SACalendar-master/Classes/DateUtil.h"; sourceTree = "<group>"; };
+		84267C2C1DBBBF1C0044ACF4 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateUtil.m; path = "../../../../Downloads/SACalendar-master/Classes/DateUtil.m"; sourceTree = "<group>"; };
+		84267C2D1DBBBF1C0044ACF4 /* DMLazyScrollView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DMLazyScrollView; path = "../../../../Downloads/SACalendar-master/Classes/DMLazyScrollView"; sourceTree = "<group>"; };
+		84267C2E1DBBBF1C0044ACF4 /* SACalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SACalendar.h; path = "../../../../Downloads/SACalendar-master/Classes/SACalendar.h"; sourceTree = "<group>"; };
+		84267C2F1DBBBF1C0044ACF4 /* SACalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SACalendar.m; path = "../../../../Downloads/SACalendar-master/Classes/SACalendar.m"; sourceTree = "<group>"; };
+		84267C301DBBBF1C0044ACF4 /* SACalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SACalendarCell.h; path = "../../../../Downloads/SACalendar-master/Classes/SACalendarCell.h"; sourceTree = "<group>"; };
+		84267C311DBBBF1C0044ACF4 /* SACalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SACalendarCell.m; path = "../../../../Downloads/SACalendar-master/Classes/SACalendarCell.m"; sourceTree = "<group>"; };
+		84267C321DBBBF1C0044ACF4 /* SACalendarConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SACalendarConstants.h; path = "../../../../Downloads/SACalendar-master/Classes/SACalendarConstants.h"; sourceTree = "<group>"; };
+		84267C371DBBC81E0044ACF4 /* DMLazyScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMLazyScrollView.h; path = "../../../../Downloads/SACalendar-master/Classes/DMLazyScrollView/DMLazyScrollView.h"; sourceTree = "<group>"; };
+		84267C381DBBC81E0044ACF4 /* DMLazyScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMLazyScrollView.m; path = "../../../../Downloads/SACalendar-master/Classes/DMLazyScrollView/DMLazyScrollView.m"; sourceTree = "<group>"; };
 		847340441DA937670038C047 /* GuestVite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuestVite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847340481DA937670038C047 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8473404A1DA937670038C047 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -176,6 +191,16 @@
 		847340471DA937670038C047 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84267C2B1DBBBF1C0044ACF4 /* DateUtil.h */,
+				84267C2C1DBBBF1C0044ACF4 /* DateUtil.m */,
+				84267C371DBBC81E0044ACF4 /* DMLazyScrollView.h */,
+				84267C381DBBC81E0044ACF4 /* DMLazyScrollView.m */,
+				84267C2D1DBBBF1C0044ACF4 /* DMLazyScrollView */,
+				84267C2E1DBBBF1C0044ACF4 /* SACalendar.h */,
+				84267C2F1DBBBF1C0044ACF4 /* SACalendar.m */,
+				84267C301DBBBF1C0044ACF4 /* SACalendarCell.h */,
+				84267C311DBBBF1C0044ACF4 /* SACalendarCell.m */,
+				84267C321DBBBF1C0044ACF4 /* SACalendarConstants.h */,
 				84267C021DAC56D30044ACF4 /* SWRevealViewController.h */,
 				84267C031DAC56D30044ACF4 /* SWRevealViewController.m */,
 				84267C051DAC6DC10044ACF4 /* FLAnimatedImage.h */,
@@ -253,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8473405A1DA937680038C047 /* LaunchScreen.storyboard in Resources */,
+				84267C341DBBBF1C0044ACF4 /* DMLazyScrollView in Resources */,
 				847340711DA977CD0038C047 /* HomePageViewController.xib in Resources */,
 				84267C111DAD9CF10044ACF4 /* SendNewInviteViewController.xib in Resources */,
 				847340761DA979A50038C047 /* RegPageViewController.xib in Resources */,
@@ -324,8 +350,11 @@
 				84267C181DB083D10044ACF4 /* SendBulkInviteViewController.m in Sources */,
 				8473404C1DA937670038C047 /* AppDelegate.m in Sources */,
 				84267C091DAC6DC10044ACF4 /* FLAnimatedImage.m in Sources */,
+				84267C391DBBC81E0044ACF4 /* DMLazyScrollView.m in Sources */,
 				8473407B1DA983F10038C047 /* TextFieldValidator.m in Sources */,
+				84267C351DBBBF1C0044ACF4 /* SACalendar.m in Sources */,
 				847340701DA977CD0038C047 /* HomePageViewController.m in Sources */,
+				84267C331DBBBF1C0044ACF4 /* DateUtil.m in Sources */,
 				847340551DA937680038C047 /* GuestVite.xcdatamodeld in Sources */,
 				84267C041DAC56D30044ACF4 /* SWRevealViewController.m in Sources */,
 				847340751DA979A50038C047 /* RegPageViewController.m in Sources */,
@@ -333,6 +362,7 @@
 				847340491DA937670038C047 /* main.m in Sources */,
 				84267C1D1DB96B6D0044ACF4 /* SendAddressBookInviteViewController.m in Sources */,
 				84267C101DAD9CF10044ACF4 /* SendNewInviteViewController.m in Sources */,
+				84267C361DBBBF1C0044ACF4 /* SACalendarCell.m in Sources */,
 				84267C011DAAA81A0044ACF4 /* SLScrollViewKeyboardSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

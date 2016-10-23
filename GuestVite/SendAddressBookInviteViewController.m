@@ -17,10 +17,11 @@
 #import "KBContactsSelectionViewController.h"
 
 #import <ContactsUI/ContactsUI.h>
+#import "SACalendar.h"
 
 @import Firebase;
 
-@interface SendAddressBookInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UITextViewDelegate, CNContactPickerDelegate,ABPeoplePickerNavigationControllerDelegate>
+@interface SendAddressBookInviteViewController () <MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate,UITextViewDelegate, CNContactPickerDelegate,ABPeoplePickerNavigationControllerDelegate,SACalendarDelegate,UITextFieldDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITextView *eMailguestList;
@@ -43,6 +44,12 @@
 @property (nonatomic, strong) NSMutableArray *phoneContactsData;
 
 @property (nonatomic, strong) NSDictionary *dictContactDetails;
+
+@property (nonatomic, strong) UITextField *currentTextField;
+
+@property (nonatomic, strong) NSString *string;
+
+@property BOOL  isCalanderRemoved;
 
 @property (nonatomic, strong) ABPeoplePickerNavigationController *addressBookController;
 -(void)showAddressBook;
@@ -92,7 +99,7 @@
     
     self.eMailguestList.inputAccessoryView = keyboardDoneButtonView;
     self.smsGuestList.inputAccessoryView = keyboardDoneButtonView;
-    self.inviteForDateText.inputAccessoryView = keyboardDoneButtonView;
+   // self.inviteForDateText.inputAccessoryView = keyboardDoneButtonView;
     self.inviteExpireDateText.inputAccessoryView = keyboardDoneButtonView;
     self.inviteMessage.inputAccessoryView = keyboardDoneButtonView;
     
@@ -104,14 +111,54 @@
     
 }
 
+-(void)doneClicked:(id)sender
+{
+    //NSLog(@"Done Clicked.");
+    [self.view endEditing:YES];
+}
 
 -(void)peoplePickerNavigationControllerDidCancel:(CNContactPickerViewController *)peoplePicker{
     [_addressBookController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)editBegin:(id)sender {
+    [self.view endEditing:YES];
+}
+
+
+- (IBAction)forDateBeginEdit:(id)sender {
+    
+    self.inviteExpireDateText.enabled = FALSE;
+    
+    SACalendar *calendar = [[SACalendar alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
+    
+    calendar.delegate = self;
+    [self.view addSubview:calendar];
+    
+    [self.view endEditing:YES];
+}
+
+- (IBAction)forDateBeginEditExpire:(id)sender {
+    
+    self.inviteForDateText.enabled = FALSE;
+    
+    SACalendar *calendar1 = [[SACalendar alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
+    
+    calendar1.delegate = self;
+    [self.view addSubview:calendar1];
+    
+    [self.view endEditing:YES];
+}
 
 
 
+/*
+-(void)selectDateButtonPressed:(id)sender
+{
+    
+    [self.view removeFromSuperview];
+}
+*/
 
 -(void)peoplePickerNavigationController:(CNContactPickerViewController *)peoplePicker didSelectPerson:(ABRecordRef)person{
     
@@ -289,6 +336,58 @@
 }
 
 
+- (void) setCurrentTextField:(UITextField *)currentTextField{
+    self.currentTextField.text = self.string;
+}
+
+
+// Prints out the selected date
+-(void) SACalendar:(SACalendar*)calendar didSelectDate:(int)day month:(int)month year:(int)year
+{
+    
+    [self.view endEditing:YES];
+    self.string = [NSString stringWithFormat:@"%02d/%02d/%02d",month,day,year];
+
+    NSLog(@"Date Selected is : %@",self.string);
+    
+    if(self.inviteForDateText.isEnabled){
+        self.inviteForDateText.text = self.string;
+        self.inviteExpireDateText.enabled = TRUE;
+        NSLog(@"FOR DATE ");
+    }
+    
+    else if(self.inviteExpireDateText.isEnabled){
+        self.inviteExpireDateText.text = self.string;
+        self.inviteForDateText.enabled = TRUE;
+        NSLog(@"EXPIRE DATE ");
+    }
+
+    [calendar removeFromSuperview];
+    
+    
+    
+}
+
+
+
+//Utility Function to convert String to date
+
+-(NSDate *)dateToFormatedDate:(NSString *)dateStr {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    return [dateFormatter dateFromString:dateStr];
+}
+
+
+
+- (IBAction)editEnded:(id)sender {
+    [sender resignFirstResponder];
+}
+
+// Prints out the month and year displaying on the calendar
+-(void) SACalendar:(SACalendar *)calendar didDisplayCalendarForMonth:(int)month year:(int)year{
+    [self.view endEditing:YES];
+}
 
 -(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier{
     return NO;
@@ -368,9 +467,33 @@
     
 }
 
+/*
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    if(self.inviteForDateText.isFirstResponder) {
+        if(self.isCalanderRemoved){
+        NSLog(@"Invite For Date");
+        NSLog(@"String is %@",self.string);
+        self.inviteForDateText.text = self.string;
+        }
+    }
+    
+    if(self.inviteExpireDateText.isFirstResponder) {
+        if(self.isCalanderRemoved){
+        NSLog(@"Invite End Date");
+            NSLog(@"String is %@",self.string);
+        self.inviteExpireDateText.text = self.string;
+        }
+    }
 
+}
+
+ */
 - (void) textViewDidBeginEditing:(UITextView *)textView
 {
+    
+    
     if(self.eMailguestList.isFirstResponder)
     {
         if([self.eMailguestList.text isEqualToString:@"Enter Email Addressses here"]) {
@@ -640,31 +763,6 @@
 }
 
 
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
-{
-    switch (result) {
-        case MessageComposeResultCancelled:
-            break;
-            
-            
-        case MessageComposeResultFailed:
-        {
-            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [warningAlert show];
-            break;
-        }
-            
-        case MessageComposeResultSent:
-            break;
-            
-            
-            
-        default:
-            break;
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 
 
