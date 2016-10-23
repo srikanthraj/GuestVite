@@ -49,6 +49,19 @@
 
 @property (nonatomic, strong) NSString *string;
 
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePickerExpire;
+
+
+@property (nonatomic, strong) NSString *startTime;
+
+@property (nonatomic, strong) NSString *endTime;
+
+
+
+
+
 @property BOOL  isCalanderRemoved;
 
 @property (nonatomic, strong) ABPeoplePickerNavigationController *addressBookController;
@@ -109,7 +122,45 @@
     self.phoneContactsData = [[NSMutableArray alloc]init];
     self.emailContactsData = [[NSMutableArray alloc]init];
     
+    
+    
+    self.datePicker.frame = CGRectMake(40, 70, 300, 50); // set frame as your need
+    self.datePicker.datePickerMode = UIDatePickerModeTime;
+    [self.view addSubview: self.datePicker];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    [self.datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    self.datePickerExpire.frame = CGRectMake(40, 70, 300, 50); // set frame as your need
+    self.datePickerExpire.datePickerMode = UIDatePickerModeTime;
+    [self.view addSubview: self.datePickerExpire];
+    //NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    [self.datePickerExpire  addTarget:self action:@selector(dateChangedExpire:) forControlEvents:UIControlEventValueChanged];
+  
+    
+    
 }
+
+
+- (void)dateChanged:(id)sender
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    NSString *currentTime = [dateFormatter stringFromDate:self.datePicker.date];
+    NSLog(@"Time For %@", currentTime);
+    self.startTime = currentTime;
+}
+
+- (void)dateChangedExpire:(id)sender
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"hh:mm a"];
+    NSString *currentTime = [dateFormatter stringFromDate:self.datePickerExpire.date];
+    NSLog(@"Time Expire%@", currentTime);
+    self.endTime = currentTime;
+}
+
 
 -(void)doneClicked:(id)sender
 {
@@ -374,7 +425,7 @@
 
 -(NSDate *)dateToFormatedDate:(NSString *)dateStr {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy hh:mm a"];
     return [dateFormatter dateFromString:dateStr];
 }
 
@@ -548,7 +599,34 @@
     
     __block NSMutableString *senderName = [[NSMutableString alloc] init];
     
+    
+    __block NSString *startDateTime  = [[NSString alloc] init];
+    
+    __block NSString *endDateTime = [[NSString alloc] init];
+    
+    startDateTime= [NSString stringWithFormat:@"%@ %@",self.inviteForDateText.text,self.startTime];
+    
+    endDateTime= [NSString stringWithFormat:@"%@ %@",self.inviteExpireDateText.text,self.endTime];
+    
+    //startDateTime = [self.inviteForDateText.text self.startTime];
+    
+    //endDateTime = [self.inviteExpireDateText.text stringByAppendingString:self.endTime];
+    
+    
+    
+    NSDate *fromDate = [self dateToFormatedDate:startDateTime];
+    
+    NSDate *toDate = [self dateToFormatedDate:endDateTime];
+    
+    NSLog(@"FROM DATE %@",fromDate);
+    
+    NSLog(@"TO DATE %@",toDate);
+    
     NSLog(@"SMS LIST %@", self.phoneContactsData);
+    
+    
+   
+   // NSComparisonResult result = [fromDate compare:toDate];
     
     if([self.phoneContactsData count] ==0) {
         
@@ -559,8 +637,21 @@
         [ac addAction:aa];
         [self presentViewController:ac animated:YES completion:nil];
     }
-
+    /*
+    else if(result != NSOrderedDescending) {
+        
+        UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"GuestVite" message:@"To Date cannot be earlier than FROM Date"preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        
+        [ac addAction:aa];
+        [self presentViewController:ac animated:YES completion:nil];
+    }
+*/
     else{
+        
+        if([fromDate compare:toDate] == NSOrderedAscending) // ONLY if from is earlier
+        {
         
         self.ref = [[FIRDatabase database] reference];
         
@@ -641,7 +732,15 @@
         [self presentViewController:messageController animated:YES completion:nil];
 
 
-        
+    }
+        else {
+            UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"GuestVite" message:@"From Date cannot be later than To Date"preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *aa = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [ac addAction:aa];
+            [self presentViewController:ac animated:YES completion:nil];
+        }
         }//else ends
     
     
@@ -763,6 +862,33 @@
 }
 
 
+
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [warningAlert show];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            break;
+            
+            
+            
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 
